@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +14,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #333;
-            /* Dark grey background */
-            color: #00FF00;
-            /* Matrix green text */
+            background-color: #333; /* Dark grey background */
+            color: #00FF00; /* Matrix green text */
         }
-
         header {
             text-align: center;
             font-size: 1.5em;
             margin-bottom: 20px;
         }
-
         .dropdown {
             background: black;
             color: #00FF00;
@@ -38,69 +33,70 @@
             font-size: 1.2em;
             width: 250px;
         }
-
+        .date-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
         .date {
             background: black;
-            color: #00FF00;
-            /* Matrix green text */
+            color: #00FF00; /* Matrix green text */
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.5em;
             padding: 10px 20px;
             border: 2px solid #00FF00;
             border-radius: 8px;
             text-align: center;
-            margin-bottom: 20px;
             display: inline-block;
         }
-
+        .arrow {
+            cursor: pointer;
+            font-size: 2em;
+            margin: 0 10px;
+        }
         .container {
             max-width: 90%;
-            background: #000000;
-            /* Black background */
+            background: #000000; /* Black background */
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             padding: 20px;
             overflow-y: auto;
             max-height: 80vh;
         }
-
         .section {
             margin-bottom: 20px;
         }
-
         h2 {
             margin-top: 0;
             font-size: 1.2em;
         }
-
         pre {
-            background: #444444;
-            /* Dark grey background for code blocks */
-            color: #00FF00;
-            /* Matrix green text */
+            background: #444444; /* Dark grey background for code blocks */
+            color: #00FF00; /* Matrix green text */
             padding: 10px;
             border-radius: 4px;
             overflow-x: auto;
         }
-
         code {
-            color: #00FF00;
-            /* Matrix green text */
+            color: #00FF00; /* Matrix green text */
         }
     </style>
 </head>
-
 <body>
     <header>the CODING CALENDAR</header>
     <div class="dropdown-container">
         <select class="dropdown" id="language-select">
             <option>Choose your language:</option>
             {% for language in languages %}
-            <option value="{{ language }}">{{ language }}</option>
+                <option value="{{ language }}">{{ language }}</option>
             {% endfor %}
         </select>
     </div>
-    <div class="date" id="date"></div>
+    <div class="date-container">
+        <div class="arrow" id="left-arrow">&#8592;</div>
+        <div class="date" id="date"></div>
+        <div class="arrow" id="right-arrow">&#8594;</div>
+    </div>
     <div class="container" id="content">
         <!-- Placeholder content -->
         <div class="section" id="placeholder">
@@ -109,43 +105,76 @@
         </div>
     </div>
     <script>
-        document.getElementById('date').innerText = new Date().toLocaleDateString();
+        let currentDay = new Date();
 
-        document.getElementById('language-select').addEventListener('change', function () {
+        function formatDate(date) {
+            return date.toLocaleDateString();
+        }
+
+        function getDayOfYear(date) {
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+            const oneDay = 1000 * 60 * 60 * 24;
+            return Math.floor(diff / oneDay);
+        }
+
+        function fetchMethod(language, date) {
+            const dayOfYear = getDayOfYear(date);
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = `
+                <div class="section" id="placeholder">
+                    <h2>Loading...</h2>
+                    <p>Fetching the method of the day for ${language} on ${formatDate(date)}.</p>
+                </div>
+            `;
+            fetch(`/method/${encodeURIComponent(language)}?day=${dayOfYear}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        contentDiv.innerHTML = `
+                            <div class="section">
+                                <h2>Error</h2>
+                                <p>${data.error}</p>
+                            </div>
+                        `;
+                    } else {
+                        contentDiv.innerHTML = `
+                            <div class="section">
+                                <h2>${data.method}</h2>
+                                <p>${data.description}</p>
+                                <pre><code>${data.example}</code></pre>
+                            </div>
+                        `;
+                    }
+                });
+        }
+
+        document.getElementById('date').innerText = formatDate(currentDay);
+
+        document.getElementById('language-select').addEventListener('change', function() {
             const language = this.value;
             if (language !== 'Choose your language:') {
-                const encodedLanguage = encodeURIComponent(language);
-                const contentDiv = document.getElementById('content');
-                contentDiv.innerHTML = `
-            <div class="section" id="placeholder">
-                <h2>Loading...</h2>
-                <p>Fetching the method of the day for ${language}.</p>
-            </div>
-        `;
-                fetch(`/method/${encodedLanguage}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            contentDiv.innerHTML = `
-                        <div class="section">
-                            <h2>Error</h2>
-                            <p>${data.error}</p>
-                        </div>
-                    `;
-                        } else {
-                            contentDiv.innerHTML = `
-                        <div class="section">
-                            <h2>${data.method}</h2>
-                            <p>${data.description}</p>
-                            <pre><code>${data.example}</code></pre>
-                        </div>
-                    `;
-                        }
-                    });
+                fetchMethod(language, currentDay);
             }
         });
 
+        document.getElementById('left-arrow').addEventListener('click', function() {
+            currentDay.setDate(currentDay.getDate() - 1);
+            document.getElementById('date').innerText = formatDate(currentDay);
+            const language = document.getElementById('language-select').value;
+            if (language !== 'Choose your language:') {
+                fetchMethod(language, currentDay);
+            }
+        });
+
+        document.getElementById('right-arrow').addEventListener('click', function() {
+            currentDay.setDate(currentDay.getDate() + 1);
+            document.getElementById('date').innerText = formatDate(currentDay);
+            const language = document.getElementById('language-select').value;
+            if (language !== 'Choose your language:') {
+                fetchMethod(language, currentDay);
+            }
+        });
     </script>
 </body>
-
 </html>

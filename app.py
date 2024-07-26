@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 import json
 from gpt_helpers import OpenAIHelper
 from urllib.parse import unquote
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///methods.db'
@@ -80,7 +81,12 @@ def index():
 
 @app.route('/method/<language>', methods=['GET'])
 def get_method(language):
-    day = get_current_day_of_year()
+    day = request.args.get('day')
+    if day is None:
+        day = get_current_day_of_year()
+    else:
+        day = int(day)
+
     decoded_language = unquote(language)
     data = query_database(day, decoded_language)
     
