@@ -34,6 +34,9 @@ def fetch_data_from_gpt(language, method):
     openai_helper = OpenAIHelper(api_key, intent_message)
     prompt = f"Provide a detailed description and example for the method '{method}' in {language}."
     response = openai_helper.gpt_4(prompt)
+    if response:
+        print(response)
+        return ""
     return {
         "method": method,
         "description": response.split('\n\n')[0],
