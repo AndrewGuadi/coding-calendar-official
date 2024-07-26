@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lru_cache Information</title>
+    <title>Method of the Day</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,74 +75,36 @@
 </head>
 <body>
     <header>the CODING CALENDAR</header>
-    <select class="dropdown">
-        <option>Choose your language:</option>
-        <option>Python</option>
-        <option>JavaScript</option>
-        <option>Java</option>
-        <option>C#</option>
-        <option>C++</option>
-        <option>PHP</option>
-        <option>TypeScript</option>
-        <option>Ruby</option>
-        <option>Swift</option>
-        <option>Go</option>
-    </select>
-    <div class="date" id="date"></div>
-    <div class="container">
-        <div class="section">
-            <h2>functools.lru_cache</h2>
-            <p>The <code>functools.lru_cache</code> decorator is part of the <code>functools</code> module, which stands for "Least Recently Used Cache". It stores the results of function calls and reuses them when the same inputs occur again, avoiding redundant computations. This is particularly useful for functions with expensive or repetitive computations.</p>
-        </div>
-        <div class="section">
-            <h2>Example 1: Fibonacci Sequence</h2>
-            <pre><code>from functools import lru_cache
-
-@lru_cache(maxsize=None)
-def fibonacci(n):
-    if n &lt; 2:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
-
-# Testing the function
-for i in range(10):
-    print(f"Fibonacci({i}) = {fibonacci(i)}")</code></pre>
-        </div>
-        <div class="section">
-            <h2>Example 2: Factorial Calculation</h2>
-            <pre><code>from functools import lru_cache
-
-@lru_cache(maxsize=128)
-def factorial(n):
-    if n == 0:
-        return 1
-    return n * factorial(n-1)
-
-# Testing the function
-print(f"Factorial(5) = {factorial(5)}")
-print(f"Factorial(10) = {factorial(10)}")</code></pre>
-        </div>
-        <div class="section">
-            <h2>Example 3: Prime Check</h2>
-            <pre><code>from functools import lru_cache
-
-@lru_cache(maxsize=256)
-def is_prime(n):
-    if n &lt; 2:
-        return False
-    for i in range(2, int(n**0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-# Testing the function
-print(f"Is 17 prime? {is_prime(17)}")
-print(f"Is 18 prime? {is_prime(18)}")</code></pre>
-        </div>
+    <div class="dropdown-container">
+        <select class="dropdown" id="language-select">
+            <option>Choose your language:</option>
+            {% for language in languages %}
+                <option value="{{ language }}">{{ language }}</option>
+            {% endfor %}
+        </select>
     </div>
+    <div class="date" id="date"></div>
+    <div class="container" id="content"></div>
     <script>
-        // Display the current date
         document.getElementById('date').innerText = new Date().toLocaleDateString();
+
+        document.getElementById('language-select').addEventListener('change', function() {
+            const language = this.value;
+            if (language !== 'Choose your language:') {
+                fetch(`/method/${language}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const contentDiv = document.getElementById('content');
+                        contentDiv.innerHTML = `
+                            <div class="section">
+                                <h2>${data.method}</h2>
+                                <p>${data.description}</p>
+                                <pre><code>${data.example}</code></pre>
+                            </div>
+                        `;
+                    });
+            }
+        });
     </script>
 </body>
 </html>
