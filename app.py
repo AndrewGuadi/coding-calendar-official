@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from datetime import datetime
 import json
 from gpt_helpers import OpenAIHelper
+from urllib.parse import unquote
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///methods.db'
@@ -80,21 +81,22 @@ def index():
 @app.route('/method/<language>', methods=['GET'])
 def get_method(language):
     day = get_current_day_of_year()
-    data = query_database(day, language)
+    decoded_language = unquote(language)
+    data = query_database(day, decoded_language)
     
     if data is None:
         with open('methods.json', 'r') as file:
             methods = json.load(file)
         
         # Normalize the language key to match the JSON keys
-        language_key = language.lower()
+        language_key = decoded_language.lower()
         print(f"Accessing methods for language key: {language_key}")  # Add logging
         
         if language_key in methods and methods[language_key]:
             method_name = methods[language_key][0]
-            method_data = fetch_data_from_gpt(language, method_name)
-            save_data_to_database(day, language, method_data)
-            remove_method_from_json(language, method_name)
+            method_data = fetch_data_from_gpt(decoded_language, method_name)
+            save_data_to_database(day, decoded_language, method_data)
+            remove_method_from_json(decoded_language, method_name)
             data = method_data
         else:
             print(f"No methods found for language: {language_key}")  # Add logging
