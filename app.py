@@ -29,19 +29,28 @@ def query_database(day, language):
 
 def fetch_data_from_gpt(language, method):
     with open("openai.txt", 'r', encoding='utf-8') as file:
-        api_key = file.read()  # Replace with your OpenAI API key
-    intent_message = "Create a poem."
+        api_key = file.read().strip()  # Read the API key from file
+    
+    intent_message = "Generate a programming method description and example code."
     openai_helper = OpenAIHelper(api_key, intent_message)
+    
     prompt = f"Provide a detailed description and example for the method '{method}' in {language}."
-    response = openai_helper.gpt_4(prompt)
+    data = ""  # Assuming no additional context needed
+    example = '{"method": "", "description": "", "example": ""}'  # Expected JSON format
+
+    response = openai_helper.gpt_json(prompt, data, example)
+
     if response:
-        print(response)
-        return ""
+        # Ensure the example is a string
+        response['example'] = str(response['example'])
+        return response
+    
     return {
         "method": method,
-        "description": response.split('\n\n')[0],
-        "example": '\n'.join(response.split('\n\n')[1:])
+        "description": "No description available.",
+        "example": "No example available."
     }
+
 
 def save_data_to_database(day, language, data):
     method = Method(day=day, language=language, method=data["method"], description=data["description"], example=data["example"])
@@ -51,15 +60,22 @@ def save_data_to_database(day, language, data):
 def remove_method_from_json(language, method):
     with open('methods.json', 'r') as file:
         methods = json.load(file)
-    if method in methods[language]:
-        methods[language].remove(method)
+    
+    # Normalize the language key to match the JSON keys
+    language_key = language.lower()
+
+    if method in methods.get(language_key, []):
+        methods[language_key].remove(method)
+    
     with open('methods.json', 'w') as file:
         json.dump(methods, file)
+
 
 @app.route('/')
 def index():
     languages = ["Python", "JavaScript", "Java", "C#", "C++", "PHP", "TypeScript", "Ruby", "Swift", "Go"]
     return render_template('index.html', languages=languages)
+
 
 @app.route('/method/<language>', methods=['GET'])
 def get_method(language):
@@ -69,13 +85,19 @@ def get_method(language):
     if data is None:
         with open('methods.json', 'r') as file:
             methods = json.load(file)
-        if methods[language]:
-            method_name = methods[language][0]
+        
+        # Normalize the language key to match the JSON keys
+        language_key = language.lower()
+        print(f"Accessing methods for language key: {language_key}")  # Add logging
+        
+        if language_key in methods and methods[language_key]:
+            method_name = methods[language_key][0]
             method_data = fetch_data_from_gpt(language, method_name)
             save_data_to_database(day, language, method_data)
             remove_method_from_json(language, method_name)
             data = method_data
         else:
+            print(f"No methods found for language: {language_key}")  # Add logging
             return jsonify({"error": "No more methods available for this language."}), 404
     else:
         data = {
@@ -85,6 +107,8 @@ def get_method(language):
         }
     
     return jsonify(data)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
