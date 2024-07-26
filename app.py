@@ -1,24 +1,32 @@
 from flask import Flask, jsonify, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime
-import sqlite3
 import json
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///methods.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 def get_current_day_of_year():
     now = datetime.utcnow()
     return now.timetuple().tm_yday
 
+class Method(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    day = db.Column(db.Integer, nullable=False)
+    language = db.Column(db.String(50), nullable=False)
+    method = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    example = db.Column(db.Text, nullable=False)
+
 def query_database(day, language):
-    conn = sqlite3.connect('methods.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM methods WHERE day=? AND language=?", (day, language))
-    result = cursor.fetchone()
-    conn.close()
-    return result
+    return Method.query.filter_by(day=day, language=language).first()
 
 def fetch_data_from_gpt(language):
-    # For example purposes, we'll return a mock response
     return {
         "method": "example_method",
         "description": "This is an example method description.",
@@ -26,12 +34,9 @@ def fetch_data_from_gpt(language):
     }
 
 def save_data_to_database(day, language, data):
-    conn = sqlite3.connect('methods.db')
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO methods (day, language, method, description, example) VALUES (?, ?, ?, ?, ?)",
-                   (day, language, data["method"], data["description"], data["example"]))
-    conn.commit()
-    conn.close()
+    method = Method(day=day, language=language, method=data["method"], description=data["description"], example=data["example"])
+    db.session.add(method)
+    db.session.commit()
 
 def remove_method_from_json(language, method):
     with open('methods.json', 'r') as file:
@@ -56,9 +61,9 @@ def get_method(language):
         remove_method_from_json(language, data["method"])
     else:
         data = {
-            "method": data[2],
-            "description": data[3],
-            "example": data[4]
+            "method": data.method,
+            "description": data.description,
+            "example": data.example
         }
     
     return jsonify(data)

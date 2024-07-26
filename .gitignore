@@ -3,7 +3,6 @@ myEnv/
 
 # Ignore specific openai.txt file
 openai.txt
-gpt-read-file.py
 
 # Python cache files
 __pycache__/
@@ -65,6 +64,9 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
+
+# Flask-Migrate
+migrations/
 
 # Editor directories and files
 .vscode/
