@@ -89,7 +89,7 @@ class OpenAIHelper:
         for attempt in range(max_retries):
             try:
                 response = self.client.chat.completions.create(
-                    model="gpt-4-0314",
+                    model="gpt-4o",
                     messages=self.messages
                 )
                 data = response.choices[0].message.content
