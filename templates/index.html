@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lru_cache Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333; /* Dark grey background */
+            color: #00FF00; /* Matrix green text */
+        }
+        header {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .dropdown {
+            background: black;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            width: 250px;
+        }
+        .date {
+            background: black;
+            color: #00FF00; /* Matrix green text */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5em;
+            padding: 10px 20px;
+            border: 2px solid #00FF00;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .container {
+            max-width: 90%;
+            background: #000000; /* Black background */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #444444; /* Dark grey background for code blocks */
+            color: #00FF00; /* Matrix green text */
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        code {
+            color: #00FF00; /* Matrix green text */
+        }
+    </style>
+</head>
+<body>
+    <header>the CODING CALENDAR</header>
+    <select class="dropdown">
+        <option>Choose your language:</option>
+        <option>Python</option>
+        <option>JavaScript</option>
+        <option>Java</option>
+        <option>C#</option>
+        <option>C++</option>
+        <option>PHP</option>
+        <option>TypeScript</option>
+        <option>Ruby</option>
+        <option>Swift</option>
+        <option>Go</option>
+    </select>
+    <div class="date" id="date"></div>
+    <div class="container">
+        <div class="section">
+            <h2>functools.lru_cache</h2>
+            <p>The <code>functools.lru_cache</code> decorator is part of the <code>functools</code> module, which stands for "Least Recently Used Cache". It stores the results of function calls and reuses them when the same inputs occur again, avoiding redundant computations. This is particularly useful for functions with expensive or repetitive computations.</p>
+        </div>
+        <div class="section">
+            <h2>Example 1: Fibonacci Sequence</h2>
+            <pre><code>from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Testing the function
+for i in range(10):
+    print(f"Fibonacci({i}) = {fibonacci(i)}")</code></pre>
+        </div>
+        <div class="section">
+            <h2>Example 2: Factorial Calculation</h2>
+            <pre><code>from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n-1)
+
+# Testing the function
+print(f"Factorial(5) = {factorial(5)}")
+print(f"Factorial(10) = {factorial(10)}")</code></pre>
+        </div>
+        <div class="section">
+            <h2>Example 3: Prime Check</h2>
+            <pre><code>from functools import lru_cache
+
+@lru_cache(maxsize=256)
+def is_prime(n):
+    if n &lt; 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+# Testing the function
+print(f"Is 17 prime? {is_prime(17)}")
+print(f"Is 18 prime? {is_prime(18)}")</code></pre>
+        </div>
+    </div>
+    <script>
+        // Display the current date
+        document.getElementById('date').innerText = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>
