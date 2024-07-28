@@ -1,0 +1,69 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>at in C++ - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the at method in C++. Find examples and best practices.">
+        <meta name="keywords" content="at, C++, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>at</h1>
+            <p>The `at` method in C++ is a member function of several Standard Library (STL) containers like `std::vector`, `std::array`, and `std::map`. It is used to access the element at a specified position with bounds checking. If the position provided is out-of-bounds, the method throws an `std::out_of_range` exception, making it safer compared to the subscript operator `[]` which does not perform bounds checking. This method provides a way to safely access elements, ensuring that your program can handle out-of-bound errors gracefully.</p>
+            <pre><code>#include <iostream>
+#include <vector>
+#include <array>
+#include <map>
+#include <stdexcept>
+
+int main() {
+    // Example with std::vector
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    try {
+        std::cout << "Element at index 2 in vector: " << vec.at(2) << std::endl;
+        std::cout << "Element at index 5 in vector: " << vec.at(5) << std::endl;  // This will throw an exception
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Out of range error: " << e.what() << std::endl;
+    }
+
+    // Example with std::array
+    std::array<int, 5> arr = {10, 20, 30, 40, 50};
+    try {
+        std::cout << "Element at index 3 in array: " << arr.at(3) << std::endl;
+        std::cout << "Element at index 10 in array: " << arr.at(10) << std::endl;  // This will throw an exception
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Out of range error: " << e.what() << std::endl;
+    }
+
+    // Example with std::map
+    std::map<std::string, int> ages = { {"Alice", 30}, {"Bob", 25}, {"Charlie", 35} };
+    try {
+        std::cout << "Age of Bob: " << ages.at("Bob") << std::endl;
+        std::cout << "Age of Daniel: " << ages.at("Daniel") << std::endl;  // This will throw an exception
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Out of range error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}</code></pre>
+        </div>
+    </body>
+    </html>
+    

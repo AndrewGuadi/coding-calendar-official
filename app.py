@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 import os
+from datetime import datetime, timedelta
 import json
 from gpt_helpers import OpenAIHelper
 from urllib.parse import unquote
@@ -77,6 +78,10 @@ def create_static_page(language, day, method_data):
     output_dir = 'static_pages'
     os.makedirs(output_dir, exist_ok=True)
     
+    # Calculate the formatted date
+    base_date = datetime(datetime.now().year, 1, 1) + timedelta(days=day - 1)
+    formatted_date = base_date.strftime('%Y-%m-%d')
+    
     # HTML template for the static page
     html_template = """
     <!DOCTYPE html>
@@ -92,23 +97,93 @@ def create_static_page(language, day, method_data):
                 font-family: Arial, sans-serif;
                 background-color: #333;
                 color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
             }}
             .container {{
                 max-width: 800px;
                 margin: 0 auto;
                 padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             }}
             h1 {{
                 text-align: center;
+            }}
+            pre {{
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }}
+            code {{
+                color: #00FF00;
+            }}
+            .date-container {{
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }}
+            .date {{
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }}
+            .arrow {{
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
             }}
         </style>
     </head>
     <body>
         <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="{day}">{formatted_date}</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
             <h1>{method_name}</h1>
             <p>{method_description}</p>
             <pre><code>{example}</code></pre>
         </div>
+        <script>
+            function getDayOfYear(date) {{
+                const start = new Date(date.getFullYear(), 0, 0);
+                const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+                const oneDay = 1000 * 60 * 60 * 24;
+                return Math.floor(diff / oneDay);
+            }}
+
+            function navigateToDate(language, dayOfYear) {{
+                window.location.href = `/static_pages/${{language.toLowerCase()}}_${{dayOfYear}}.html`;
+            }}
+
+            document.getElementById('left-arrow').addEventListener('click', function() {{
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('{language}', currentDayOfYear);
+            }});
+
+            document.getElementById('right-arrow').addEventListener('click', function() {{
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('{language}', currentDayOfYear);
+            }});
+        </script>
     </body>
     </html>
     """
@@ -116,7 +191,7 @@ def create_static_page(language, day, method_data):
     title = f"{method_data['method']} in {language} - Best Coding Practices"
     description = f"Learn how to use the {method_data['method']} method in {language}. Find examples and best practices."
     keywords = f"{method_data['method']}, {language}, Best Coding Practices, Programming Examples"
-    
+
     # Generate HTML content
     html_content = html_template.format(
         title=title,
@@ -124,12 +199,16 @@ def create_static_page(language, day, method_data):
         keywords=keywords,
         method_name=method_data['method'],
         method_description=method_data['description'],
-        example=method_data['example']
+        example=method_data['example'],
+        formatted_date=formatted_date,
+        day=day,
+        language=language
     )
     
     # Save the HTML file
     with open(os.path.join(output_dir, file_name), 'w') as output_file:
         output_file.write(html_content)
+
 
 @app.route('/')
 def index():
