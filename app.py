@@ -161,15 +161,8 @@ def create_static_page(language, day, method_data):
             <pre><code>{example}</code></pre>
         </div>
         <script>
-            function getDayOfYear(date) {{
-                const start = new Date(date.getFullYear(), 0, 0);
-                const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
-                const oneDay = 1000 * 60 * 60 * 24;
-                return Math.floor(diff / oneDay);
-            }}
-
             function navigateToDate(language, dayOfYear) {{
-                window.location.href = `/static_pages/${{language.toLowerCase()}}_${{dayOfYear}}.html`;
+                window.location.href = `/?language=${{language}}&day=${{dayOfYear}}`;
             }}
 
             document.getElementById('left-arrow').addEventListener('click', function() {{
