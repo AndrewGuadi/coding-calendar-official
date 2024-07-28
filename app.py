@@ -1,11 +1,11 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory, abort, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+import os
 import json
 from gpt_helpers import OpenAIHelper
 from urllib.parse import unquote
-
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///methods.db'
@@ -53,7 +53,6 @@ def fetch_data_from_gpt(language, method):
         "example": "No example available."
     }
 
-
 def save_data_to_database(day, language, data):
     method = Method(day=day, language=language, method=data["method"], description=data["description"], example=data["example"])
     db.session.add(method)
@@ -72,12 +71,70 @@ def remove_method_from_json(language, method):
     with open('methods.json', 'w') as file:
         json.dump(methods, file)
 
+def create_static_page(language, day, method_data):
+    language_key = language.lower()
+    file_name = f"{language_key}_{day}.html"
+    output_dir = 'static_pages'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # HTML template for the static page
+    html_template = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{title}</title>
+        <meta name="description" content="{description}">
+        <meta name="keywords" content="{keywords}">
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+            }}
+            .container {{
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }}
+            h1 {{
+                text-align: center;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>{method_name}</h1>
+            <p>{method_description}</p>
+            <pre><code>{example}</code></pre>
+        </div>
+    </body>
+    </html>
+    """
+    
+    title = f"{method_data['method']} in {language} - Best Coding Practices"
+    description = f"Learn how to use the {method_data['method']} method in {language}. Find examples and best practices."
+    keywords = f"{method_data['method']}, {language}, Best Coding Practices, Programming Examples"
+    
+    # Generate HTML content
+    html_content = html_template.format(
+        title=title,
+        description=description,
+        keywords=keywords,
+        method_name=method_data['method'],
+        method_description=method_data['description'],
+        example=method_data['example']
+    )
+    
+    # Save the HTML file
+    with open(os.path.join(output_dir, file_name), 'w') as output_file:
+        output_file.write(html_content)
 
 @app.route('/')
 def index():
     languages = ["Python", "JavaScript", "Java", "C#", "C++", "PHP", "TypeScript", "Ruby", "Swift", "Go"]
     return render_template('index.html', languages=languages)
-
 
 @app.route('/method/<language>', methods=['GET'])
 def get_method(language):
@@ -103,20 +160,57 @@ def get_method(language):
             method_data = fetch_data_from_gpt(decoded_language, method_name)
             save_data_to_database(day, decoded_language, method_data)
             remove_method_from_json(decoded_language, method_name)
+            create_static_page(decoded_language, day, method_data)
             data = method_data
         else:
             print(f"No methods found for language: {language_key}")  # Add logging
             return jsonify({"error": "No more methods available for this language."}), 404
     else:
-        data = {
-            "method": data.method,
-            "description": data.description,
-            "example": data.example
-        }
+        static_page_path = f"static_pages/{decoded_language.lower()}_{day}.html"
+        if os.path.exists(static_page_path):
+            return send_from_directory('static_pages', f"{decoded_language.lower()}_{day}.html")
+        else:
+            data = {
+                "method": data.method,
+                "description": data.description,
+                "example": data.example
+            }
     
     return jsonify(data)
 
+@app.route('/static_pages/<path:filename>')
+def serve_static_page(filename):
+    try:
+        return send_from_directory('static_pages', filename)
+    except FileNotFoundError:
+        abort(404)
 
+def generate_sitemap():
+    pages = []
+    static_pages_dir = 'static_pages'
+    
+    for filename in os.listdir(static_pages_dir):
+        if filename.endswith('.html'):
+            pages.append(f'http://www.codingcalendar.com/{static_pages_dir}/{filename}')
+    
+    sitemap_content = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+"""
+
+    for page in pages:
+        sitemap_content += f"""
+    <url>
+        <loc>{page}</loc>
+        <lastmod>{datetime.utcnow().date()}</lastmod>
+    </url>
+"""
+    sitemap_content += "</urlset>"
+    return sitemap_content
+
+@app.route('/sitemap.xml')
+def sitemap():
+    sitemap_xml = generate_sitemap()
+    return Response(sitemap_xml, mimetype='application/xml')
 
 if __name__ == '__main__':
     app.run(debug=True)
