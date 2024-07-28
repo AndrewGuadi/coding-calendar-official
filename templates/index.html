@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Method of the Day</title>
+    <title>Method of the Day - Best Coding Practices and Daily Coding Problems</title>
+    <meta name="description" content="Discover the best coding practices, Python programming examples, JavaScript code snippets, and more. Enhance your skills with daily coding problems and advanced programming tips.">
+    <meta name="keywords" content="Best Coding Practices, Python Programming Examples, JavaScript Code Snippets, Learn to Code for Free, Web Development Tips, Software Development Techniques, Coding Tutorials for Beginners, Advanced Programming Tips, Daily Coding Problems, How to Improve Coding Skills">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,6 +82,9 @@
         code {
             color: #00FF00; /* Matrix green text */
         }
+        img {
+            display: none; /* Hide images used for alt text SEO */
+        }
     </style>
 </head>
 <body>
@@ -100,10 +105,20 @@
     <div class="container" id="content">
         <!-- Placeholder content -->
         <div class="section" id="placeholder">
-            <h2>Loading...</h2>
+            <h2 id="loading-text">Loading</h2>
             <p>Please select a language to see the method of the day.</p>
         </div>
     </div>
+    <img src="placeholder.png" alt="Best Coding Practices">
+    <img src="placeholder.png" alt="Python Programming Examples">
+    <img src="placeholder.png" alt="JavaScript Code Snippets">
+    <img src="placeholder.png" alt="Learn to Code for Free">
+    <img src="placeholder.png" alt="Web Development Tips">
+    <img src="placeholder.png" alt="Software Development Techniques">
+    <img src="placeholder.png" alt="Coding Tutorials for Beginners">
+    <img src="placeholder.png" alt="Advanced Programming Tips">
+    <img src="placeholder.png" alt="Daily Coding Problems">
+    <img src="placeholder.png" alt="How to Improve Coding Skills">
     <script>
         let currentDay = new Date();
 
@@ -123,10 +138,11 @@
             const contentDiv = document.getElementById('content');
             contentDiv.innerHTML = `
                 <div class="section" id="placeholder">
-                    <h2>Loading...</h2>
+                    <h2 id="loading-text">Loading</h2>
                     <p>Fetching the method of the day for ${language} on ${formatDate(date)}.</p>
                 </div>
             `;
+            startLoadingAnimation();
             fetch(`/method/${encodeURIComponent(language)}?day=${dayOfYear}`)
                 .then(response => response.json())
                 .then(data => {
@@ -146,7 +162,22 @@
                             </div>
                         `;
                     }
+                    stopLoadingAnimation();
                 });
+        }
+
+        function startLoadingAnimation() {
+            const loadingText = document.getElementById('loading-text');
+            let dotCount = 0;
+            loadingText.interval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4; // Cycle through 0 to 3
+                loadingText.textContent = 'Loading' + '.'.repeat(dotCount);
+            }, 500); // Update every 500ms
+        }
+
+        function stopLoadingAnimation() {
+            const loadingText = document.getElementById('loading-text');
+            clearInterval(loadingText.interval);
         }
 
         document.getElementById('date').innerText = formatDate(currentDay);
