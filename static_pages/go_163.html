@@ -1,0 +1,138 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cap in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the cap method in go. Find examples and best practices.">
+        <meta name="keywords" content="cap, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="163">2024-06-11</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>cap</h1>
+            <p>The 'cap' function in Go is used to obtain the capacity of a slice, which tells how many elements the slice can hold without allocating more memory. This is particularly useful when you're working with slices that may need to grow in size, as it helps manage performance by minimizing allocations. The capacity is defined as the number of elements that the slice can contain in its underlying array, and it's typically at least as large as the length of the slice and can be larger if the slice was created with a larger backing array.</p>
+            <pre><code>```python
+# Example of using slice capacity in Python
+# We can mimic the capacity concept using a list
+# Create a list with a predefined number of elements
+my_list = [None] * 10  # Pre-allocating a list of size 10
+# Mimicking a slice in Go that has a capacity
+length = 5 
+# Now we can use only the first 5 elements as valid
+my_list[0] = 'a'
+my_list[1] = 'b'
+my_list[2] = 'c'
+my_list[3] = 'd'
+my_list[4] = 'e'
+# The capacity would be 10, but the length of used elements is 5
+capacity = len(my_list)  # Mimicking cap() in Go
+used_length = length
+print(f"Capacity: {capacity}, Used: {used_length}")
+```</code></pre>
+            <pre><code>```python
+# Example showing how to dynamically increase capacity
+my_list = [1, 2, 3]  # Initial list elements
+# We need to ensure we can add more elements
+if len(my_list) < 5:
+    my_list.append(4)
+    my_list.append(5)
+print(my_list)  # Expected output: [1, 2, 3, 4, 5]
+# Let's check the capacity and length
+capacity = 10  # Arbitrarily defining capacity
+used_length = len(my_list)
+print(f"Capacity: {capacity}, Used: {used_length}")
+```</code></pre>
+            <pre><code>```python
+# Example of resizing a 'list' to simulate capacity change
+my_list = [10, 20, 30]
+# Simulating the need to increase the capacity and add more elements
+my_list.extend([40, 50, 60, 70])
+current_length = len(my_list)
+# Initially created a capacity of 10
+capacity = 10  # Assuming a static capacity here just for example
+print(f"Final List: {my_list}")
+print(f"Capacity: {capacity}, Current Length: {current_length}")
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,121 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>abs in java - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the abs method in java. Find examples and best practices.">
+        <meta name="keywords" content="abs, java, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="64">2024-03-04</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>abs</h1>
+            <p>The 'abs' method in Java, typically found in the Math class, is used to compute the absolute value of a given number. The absolute value of a number is its non-negative value without regard to its sign. This method is useful in various mathematical computations where the magnitude of a number is required without its sign. The 'abs' method can handle different data types such as integers, floats, and doubles, providing flexibility based on the needs of the program.</p>
+            <pre><code>def calculate_absolute_value(value):
+    return abs(value)
+
+# Example usage:
+num = -10
+result = calculate_absolute_value(num)
+print(result) # Output: 10</code></pre>
+            <pre><code>def find_max_absolute(value1, value2):
+    return abs(value1), abs(value2)
+
+# Example usage:
+num1 = -5.5
+num2 = 2.3
+result1, result2 = find_max_absolute(num1, num2)
+print(result1, result2) # Output: 5.5 2.3</code></pre>
+            <pre><code>def compare_with_zero(value):
+    if abs(value) < 1:
+        return 'The absolute value is less than 1'
+    else:
+        return 'The absolute value is 1 or more'
+
+# Example usage:
+num = -0.5
+result = compare_with_zero(num)
+print(result) # Output: The absolute value is less than 1</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('java', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('java', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

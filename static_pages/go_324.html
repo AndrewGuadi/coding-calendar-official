@@ -1,0 +1,149 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>close in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the close method in go. Find examples and best practices.">
+        <meta name="keywords" content="close, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="324">2024-11-19</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>close</h1>
+            <p>The 'close' method in Go is used to close a resource, such as a file, network connection, or channel. Closing a resource helps to free up system resources and ensures that any necessary cleanup occurs. When working with files, for instance, failing to close a file can result in resource leaks, data loss, and unpredictable program behavior.</p>
+            <pre><code>import os
+
+# Function to read a file and print its content
+
+def read_file(filename):
+    file = open(filename, 'r')
+    try:
+        content = file.read()
+        print(content)
+    finally:
+        file.close()  # Ensures the file is closed after reading
+
+read_file('example.txt')</code></pre>
+            <pre><code>import socket
+
+# Function to send a message over a socket
+
+def send_message(host, port, message):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        sock.connect((host, port))
+        sock.sendall(message.encode('utf-8'))
+    finally:
+        sock.close()  # Ensures the socket is closed after message is sent
+
+send_message('localhost', 8080, 'Hello, Server!')</code></pre>
+            <pre><code>from queue import Queue
+
+# Function to demonstrate channel closure in a producer/consumer scenario
+
+def producer(q):
+    for i in range(5):
+        q.put(i)
+    q.put(None)  # Signal that production is done
+
+
+def consumer(q):
+    while True:
+        item = q.get()
+        if item is None:
+            break  # Stop if the sentinel (None) is received
+        print('Consumed:', item)
+
+queue = Queue()
+import threading
+producer_thread = threading.Thread(target=producer, args=(queue,))
+consumer_thread = threading.Thread(target=consumer, args=(queue,))
+producer_thread.start()
+consumer_thread.start()
+producer_thread.join()
+# Close the queue by sending None to signal production is done
+queue.put(None)
+consumer_thread.join()</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,131 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>close in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the close method in go. Find examples and best practices.">
+        <meta name="keywords" content="close, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="208">2024-07-26</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>close</h1>
+            <p>In Go, the `Close()` method is typically used to close resources that need to be released, such as files, network connections, or database connections. It is an important method to ensure that resources do not leak, which can lead to performance issues or system resource exhaustion. The `Close()` method generally returns an error to indicate if there was any issue while closing the resource, which should be checked in applications to handle potential errors appropriately.</p>
+            <pre><code>import os
+
+# Open a file and ensure it's closed after use.
+file, err = os.Open('example.txt')
+if err != nil:
+    print(f'Error opening file: {err}')
+else:
+    # Perform file operations here
+    print(file.read())
+    # Close the file to free resources
+    file.close()</code></pre>
+            <pre><code>import sqlite3
+
+# Connect to a SQLite database
+connection = sqlite3.connect('example.db')
+# Ensure the connection is closed properly after operations
+try:
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM table_name')
+    results = cursor.fetchall()
+    print(results)
+finally:
+    # Close the connection
+    connection.close()</code></pre>
+            <pre><code>import socket
+
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Attempt to connect to a server
+try:
+    sock.connect(('localhost', 8080))
+    sock.sendall(b'Hello, World!')
+finally:
+    # Always close the socket
+    sock.close()</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

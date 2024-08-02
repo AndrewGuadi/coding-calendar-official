@@ -1,0 +1,151 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>std::vector::push_back in cplus - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the std::vector::push_back method in cplus. Find examples and best practices.">
+        <meta name="keywords" content="std::vector::push_back, cplus, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="132">2024-05-11</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>std::vector::push_back</h1>
+            <p>The `push_back` method in C++ is used to add a new element to the end of a `std::vector`. The new element is added after the current last element and the size of the vector increases by one. This method takes a single argument, which is the value to be added. If the vector needs to resize to accommodate the new element, it will handle it automatically. The new element is copied (or moved) into the container.</p>
+            <pre><code># Example of using std::vector::push_back to add strings to a vector.
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<std::string> stringVector;
+
+    // Adding elements to the vector
+    stringVector.push_back("Python");
+    stringVector.push_back("Java");
+    stringVector.push_back("C++");
+
+    // Displaying the elements of the vector
+    for (const auto& str : stringVector) {
+        std::cout << str << std::endl;
+    }
+    return 0;
+}</code></pre>
+            <pre><code># Example of using std::vector::push_back to add integers to a vector.
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> intVector;
+
+    // Adding elements to the vector
+    intVector.push_back(10);
+    intVector.push_back(20);
+    intVector.push_back(30);
+
+    // Displaying the elements of the vector
+    for (const auto& num : intVector) {
+        std::cout << num << std::endl;
+    }
+    return 0;
+}</code></pre>
+            <pre><code># Example of using std::vector::push_back to build a vector of mixed integers and strings.
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main() {
+    std::vector<std::string> mixedVector;
+
+    // Adding mixed string elements to the vector
+    mixedVector.push_back("Python");
+    mixedVector.push_back("is great");
+    mixedVector.push_back("2023");
+
+    // Displaying the elements of the vector
+    for (const auto& item : mixedVector) {
+        std::cout << item << std::endl;
+    }
+    return 0;
+}</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

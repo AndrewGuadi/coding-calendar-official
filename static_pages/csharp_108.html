@@ -1,0 +1,132 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add in csharp - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the Add method in csharp. Find examples and best practices.">
+        <meta name="keywords" content="Add, csharp, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="108">2024-04-17</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>Add</h1>
+            <p>The 'Add' method is typically used to insert a new element into a collection, such as a list or a dictionary. In the context of collections in C#, this method allows you to add an item without the need to manually manage the underlying data structure. The 'Add' method is commonly employed with various types of collections like List<T>, Dictionary<TKey, TValue>, and HashSet<T>. When using this method, the programmer provides the item to be added, and the data structure handles any necessary resizing or adjustments internally.</p>
+            <pre><code>Here's an example of using the Add method with a List in Python. We will create a list of programming languages, add a new language, and print the updated list.
+
+```python
+# Creating a list of programming languages
+languages = ['Python', 'Java', 'C#']
+# Adding a new language
+languages.append('JavaScript')
+# Printing the updated list
+print(languages)  # Output: ['Python', 'Java', 'C#', 'JavaScript']
+```</code></pre>
+            <pre><code>In this example, we will add key-value pairs to a dictionary in Python using the Add functionality.
+
+```python
+# Creating an empty dictionary
+fruits = {}  
+# Adding key-value pairs for fruits
+fruits['apple'] = 'red'
+fruits['banana'] = 'yellow'
+fruits['grape'] = 'purple'
+# Printing the updated dictionary
+print(fruits)  # Output: {'apple': 'red', 'banana': 'yellow', 'grape': 'purple'}
+```</code></pre>
+            <pre><code>This example illustrates how to use a set in Python where we will add unique fruits to the set.
+
+```python
+# Creating an empty set
+unique_fruits = set()
+# Adding fruits to the set
+unique_fruits.add('orange')
+unique_fruits.add('banana')
+unique_fruits.add('apple')
+# Trying to add a duplicate fruit
+unique_fruits.add('banana')  # This will not change the set
+# Printing the updated set
+print(unique_fruits)  # Output: {'orange', 'banana', 'apple'}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -65,8 +65,7 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# Flask-Migrate
-migrations/
+
 
 # Editor directories and files
 .vscode/

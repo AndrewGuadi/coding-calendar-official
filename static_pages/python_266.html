@@ -1,0 +1,102 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ascii in python - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the ascii method in python. Find examples and best practices.">
+        <meta name="keywords" content="ascii, python, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="266">2024-09-22</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>ascii</h1>
+            <p>The `ascii()` function in Python takes a single argument (an object) and returns a string representation of that object, where all non-ASCII characters are escaped using their Unicode escape sequences. This is useful for debugging or displaying data in a format that is safe for ASCII-only environments.</p>
+            <pre><code>text = 'Hello, world! 😊'
+print(ascii(text))  # Output: 'Hello, world! \U0001f60a'</code></pre>
+            <pre><code>data = {'name': 'José', 'city': 'München'}
+print(ascii(data))  # Output: "{'name': 'Jos\xe9', 'city': 'M\xfcnchen'}"</code></pre>
+            <pre><code>list_of_strings = ['apple', 'banana', 'cherry 🍒']
+print(ascii(list_of_strings))  # Output: "['apple', 'banana', 'cherry \U0001f352']"</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('python', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('python', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

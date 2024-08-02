@@ -1,0 +1,143 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add in csharp - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the Add method in csharp. Find examples and best practices.">
+        <meta name="keywords" content="Add, csharp, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="155">2024-06-03</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>Add</h1>
+            <p>The 'Add' method is commonly used in C# to add an element to a collection, such as a list, set, or dictionary. This method allows you to insert a new item and typically returns a boolean indicating whether the item was successfully added. For instances such as lists, the item is added to the end, while in dictionaries, a key-value pair is added.</p>
+            <pre><code>The following example shows how to use the 'Add' method to add elements to a list of strings. This demonstrates creating a list, adding elements, and iterating through the list to display the added elements:
+
+```python
+my_list = []  # Create an empty list
+
+# Use the Add method to add Python code examples to the list
+my_list.append('print("Hello, World!")')
+my_list.append('for i in range(5): print(i)')
+my_list.append('def greet(name): return f"Hello, {name}!"')
+
+# Display the contents of the list
+for item in my_list:
+    print(item)  # Output each added Python code
+```</code></pre>
+            <pre><code>In this example, we will demonstrate how to use the 'Add' method in a dictionary. This illustrates how to add key-value pairs:
+
+```python
+dictionary = {}  # Create an empty dictionary
+
+# Use the Add method to add example functions to the dictionary
+# Here we use the keys as names of functions
+key1 = 'hello_function'
+value1 = 'def hello(): print("Hello, World!")'  
+dictionary[key1] = value1
+
+key2 = 'sum_function'
+value2 = 'def sum(a, b): return a + b'  
+dictionary[key2] = value2
+
+# Display the dictionary's contents
+for key, value in dictionary.items():
+    print(f'{key}: {value}')  # Output each function example
+```</code></pre>
+            <pre><code>This example illustrates the use of the 'Add' method to build a set. Sets automatically handle duplicate entries, hence only unique items are stored:
+
+```python
+my_set = set()  # Create an empty set
+
+# Use the Add method to add different Python code snippets
+my_set.add('def multiply(a, b): return a * b')
+my_set.add('def divide(a, b): return a / b')
+my_set.add('def multiply(a, b): return a * b')  # Duplicate; will not be added
+
+# Display the contents of the set
+for item in my_set:
+    print(item)  # Output unique Python code examples
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

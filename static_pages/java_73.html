@@ -1,0 +1,138 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>abs in java - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the abs method in java. Find examples and best practices.">
+        <meta name="keywords" content="abs, java, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="73">2024-03-13</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>abs</h1>
+            <p>The 'abs' method in Java is used to calculate the absolute value of a number. Absolute value is defined as the distance of a number from zero on the number line, regardless of direction. This method can be applied to integers, long integers, floating-point numbers, and double precision numbers. It is part of the 'java.lang.Math' class and returns the absolute value of the given argument. If the argument is already a positive number or zero, it returns the number itself; if it is negative, it returns its positive equivalent.</p>
+            <pre><code>import java.util.Scanner;
+
+public class AbsExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter an integer:");
+        int number = scanner.nextInt();
+
+        int absoluteValue = Math.abs(number);
+        System.out.println("The absolute value of " + number + " is " + absoluteValue);
+    }
+}
+# Given input: -42
+# Output: The absolute value of -42 is 42
+</code></pre>
+            <pre><code>import java.util.Scanner;
+
+public class AbsDoubleExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a floating-point number:");
+        double number = scanner.nextDouble();
+
+        double absoluteValue = Math.abs(number);
+        System.out.println("The absolute value of " + number + " is " + absoluteValue);
+    }
+}
+# Given input: -3.14
+# Output: The absolute value of -3.14 is 3.14
+</code></pre>
+            <pre><code>public class AbsArrayExample {
+    public static void main(String[] args) {
+        int[] numbers = {-1, 2, -3, 4};
+        System.out.println("Absolute values of the array:");
+        for (int number : numbers) {
+            int absoluteValue = Math.abs(number);
+            System.out.print(absoluteValue + " ");
+        }
+    }
+}
+# Output: Absolute values of the array:
+# 1 2 3 4 </code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('java', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('java', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

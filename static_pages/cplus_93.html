@@ -1,0 +1,157 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>std::vector::push_back in cplus - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the std::vector::push_back method in cplus. Find examples and best practices.">
+        <meta name="keywords" content="std::vector::push_back, cplus, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="93">2024-04-02</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>std::vector::push_back</h1>
+            <p>The 'push_back' method in C++ is used to add a new element to the end of a 'std::vector'. This method expands the vector's size by one, making room for the new element, which can be of any data type. It is an essential part of managing dynamic arrays in C++ as it allows for adding elements without needing to manually resize the array. When using 'push_back', if the current capacity of the vector is reached, it automatically reallocates memory to accommodate more elements. It's important to note that 'push_back' operates with amortized constant time complexity, making it efficient for dynamic array operations.</p>
+            <pre><code>```python
+# Example of using std::vector::push_back to build a vector of strings
+from ctypes import cdll, c_char_p
+
+# Load the C++ standard library
+libc = cdll.LoadLibrary('libc.so.6')
+
+# Initialize the vector and push back elements
+vector = []
+vectors_lib = """"
+std::vector<std::string> myVector;
+myVector.push_back("Hello");
+myVector.push_back("World");
+""""
+
+# Prepare the Python string as a value
+values = ['"Hello"', '"World"']
+for value in values:
+    # In a real C++ program, you would call push_back like this:
+    # myVector.push_back(value)
+    # But for the purpose of this illustration, we are showing the concept in Python.
+    print(f'Pushing back: {value}')
+vector.append(value)
+
+print('Final vector:', vector)
+```</code></pre>
+            <pre><code>```python
+# Example of building a vector of integers
+# Here is how you would represent dynamic resizing with push_back
+vector_of_ints = []
+
+# Imagine this is happening in C++:
+# std::vector<int> intVector;
+# intVector.push_back(10);
+# intVector.push_back(20);
+
+# For the sake of simulation, we'll demonstrate in Python with integers
+for i in range(1, 6):
+    # Instead of push_back, we're directly appending to our Python list
+    value = i * 10
+    print(f'Pushing back: {value}')
+    vector_of_ints.append(value)
+
+print('Final vector of integers:', vector_of_ints)
+```</code></pre>
+            <pre><code>```python
+# Example of using 'push_back' to create a vector of floating-point numbers
+# Initialized empty vector
+vector_of_floats = []
+
+# Simulating push_back in a C++ vector
+def push_back(vec, value):
+    print(f'Pushing back: {value}')
+    vec.append(value)
+
+# Simulate adding values to the vector
+for value in [1.1, 2.2, 3.3, 4.4, 5.5]:
+    push_back(vector_of_floats, value)
+
+print('Final vector of floats:', vector_of_floats)
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

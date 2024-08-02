@@ -1,0 +1,154 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cap in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the cap method in go. Find examples and best practices.">
+        <meta name="keywords" content="cap, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="52">2024-02-21</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>cap</h1>
+            <p>The 'cap' method in Go is used to return the capacity of a slice. The capacity of a slice is the number of elements in the underlying array (that the slice references) that can be used without needing to allocate a new array. This is especially useful for optimizing memory usage and understanding how much space a slice has for growth before it needs to be resized. When a slice is created, it can have a length (the number of elements it currently holds) and a capacity (the maximum number of elements it can hold before needing a larger backing array).</p>
+            <pre><code>```python
+# Example showing the capacity of a slice in Go
+import subprocess
+
+code = """
+package main
+import (
+	"fmt"
+)
+
+func main() {
+	slice := make([]int, 5, 10) // Length: 5, Capacity: 10
+	fmt.Println(cap(slice)) // Output: 10
+}
+"""
+subprocess.run(['go', 'run', '-e', code])
+```</code></pre>
+            <pre><code>```python
+# Example demonstrating capacity growth when appending to a slice in Go
+import subprocess
+
+code = """
+package main
+import (
+	"fmt"
+)
+
+func main() {
+	slice := []int{1, 2, 3}
+	fmt.Println(cap(slice)) // Initially capacity is 3
+	slice = append(slice, 4, 5, 6)
+	fmt.Println(cap(slice)) // Capacity may increase, output may be 6 or more
+}
+"""
+subprocess.run(['go', 'run', '-e', code])
+```</code></pre>
+            <pre><code>```python
+# Example using cap to manage slices in a loop in Go
+import subprocess
+
+code = """
+package main
+import (
+	"fmt"
+)
+
+func main() {
+	values := []int{1, 2, 3, 4, 5}
+	for i := 0; i < 10; i++ {
+		if len(values) == cap(values) {
+			values = append(values, i)
+			fmt.Println("New capacity:", cap(values))
+		}
+	}
+}
+"""
+subprocess.run(['go', 'run', '-e', code])
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

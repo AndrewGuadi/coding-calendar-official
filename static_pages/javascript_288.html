@@ -1,0 +1,105 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>charAt in javascript - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the charAt method in javascript. Find examples and best practices.">
+        <meta name="keywords" content="charAt, javascript, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="288">2024-10-14</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>charAt</h1>
+            <p>The `charAt` method in JavaScript returns the character at a specified index (position) in a string. The index is zero-based, meaning that the first character in the string is at index 0, the second character is at index 1, and so on. If the specified index is out of the range of the string, `charAt` will return an empty string.</p>
+            <pre><code>const str = 'Hello, World!';
+const firstChar = str.charAt(0); // returns 'H'
+console.log(firstChar);</code></pre>
+            <pre><code>const str = 'JavaScript';
+const fourthChar = str.charAt(3); // returns 'a'
+console.log(fourthChar);</code></pre>
+            <pre><code>const str = 'Programming';
+const lastChar = str.charAt(str.length - 1); // returns 'g'
+console.log(lastChar);</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('javascript', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('javascript', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

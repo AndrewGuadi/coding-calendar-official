@@ -1,0 +1,148 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>close in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the close method in go. Find examples and best practices.">
+        <meta name="keywords" content="close, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="212">2024-07-30</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>close</h1>
+            <p>The 'close' method in Go is primarily used to close resources such as files, network connections, and channels. It is important to use the 'close' method to free up resources and prevent memory leaks. When a file or connection is closed, it cannot be reused, and any attempt to read from a closed resource may lead to an error. In Go, it is common to call the 'close' method using a deferred statement right after a resource is opened, to ensure that it is properly closed when no longer needed.</p>
+            <pre><code>import os
+
+# Open a file
+file, err = os.Open('example.txt')
+if err != nil:
+    print('Error opening file:', err)
+    return
+
+# Ensure the file is closed after operations
+try:
+    content = file.read()
+    print(content)
+finally:
+    file.close()
+    print('File closed successfully.')</code></pre>
+            <pre><code>import socket
+
+# Create a socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    # Connect to a server
+    s.connect(('localhost', 8080))
+    # Send some data
+    s.sendall(b'Hello, World!')
+    # Receive response
+    response = s.recv(1024)
+    print('Received:', response)
+finally:
+    s.close()
+    print('Socket closed successfully.')</code></pre>
+            <pre><code>import queue
+def main():
+    # Create a queue
+    q = queue.Queue()
+    
+    # Enqueue some items
+    q.put('item 1')
+    q.put('item 2')
+    
+    # Process the items
+    while not q.empty():
+        item = q.get()
+        print('Processing:', item)
+        q.task_done()
+    
+    # Signal that processing is done
+    q.join()
+    print('All items processed.')
+    # In Go, you'd typically close the channel
+
+if __name__ == '__main__':
+    main()</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

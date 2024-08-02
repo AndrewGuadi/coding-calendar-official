@@ -1,0 +1,117 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>acos in java - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the acos method in java. Find examples and best practices.">
+        <meta name="keywords" content="acos, java, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="177">2024-06-25</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>acos</h1>
+            <p>The 'acos' method in Java is a part of the 'java.lang.Math' class and is used to calculate the arccosine of a given number. It returns the angle in radians whose cosine is the specified number. The parameter must be in the range of -1.0 to 1.0, inclusive; otherwise, the method will return NaN (Not a Number). The result can be converted to degrees if necessary by using the conversion formula (degrees = radians * 180 / π).</p>
+            <pre><code>import math
+
+# Calculate the arccosine of a cosine value
+value = 0.5
+result = math.acos(value)  # result is in radians
+print(result)  # Output: 1.0471975511965979 (which is 60 degrees in radians)
+print(math.degrees(result))  # Output: 60.0 (converting radians to degrees)</code></pre>
+            <pre><code>import math
+
+# Calculate the arccosine of 1
+value = 1
+result = math.acos(value)  # Expected output: 0 (which corresponds to 0 degrees)
+print(result)  # Output: 0.0
+print(math.degrees(result))  # Output: 0.0</code></pre>
+            <pre><code>import math
+
+# Calculate the arccosine of -1
+value = -1
+result = math.acos(value)  # Expected output: 3.141592653589793 (which is 180 degrees in radians)
+print(result)  # Output: 3.141592653589793
+print(math.degrees(result))  # Output: 180.0</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('java', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('java', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,144 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>std::vector::push_back in cplus - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the std::vector::push_back method in cplus. Find examples and best practices.">
+        <meta name="keywords" content="std::vector::push_back, cplus, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="247">2024-09-03</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>std::vector::push_back</h1>
+            <p>The `push_back` method in C++ adds a new element to the end of a `std::vector`. This method increases the size of the vector by one and allows you to push new items onto the back of the vector. The added element is initialized with a copy of the value passed to `push_back`. If the current allocated memory is not sufficient to accommodate the new element, the `vector` automatically increases its capacity. It provides an efficient way to build a collection of items dynamically as the size requirement grows during runtime.</p>
+            <pre><code>```python
+# Initialize an empty list to store values
+vector = []
+
+# Define some Python code snippets as strings
+code_snippets = ["print('Hello, World!')", "for i in range(5): print(i)", "def add(a, b): return a + b"]
+
+# Push each code snippet into the list
+for snippet in code_snippets:
+    vector.append(snippet)
+
+# Display the contents of the vector
+print(vector)
+```
+This example shows how to create a dynamic list of code snippets using `append`, which corresponds to the `push_back` method in C++.</code></pre>
+            <pre><code>```python
+# Simulating the addition of items to a list
+vector = []
+
+# Function to add items to the vector
+def add_to_vector(item):
+    vector.append(item)
+
+# Adding multiple Python comments to the vector
+add_to_vector("# This is a comment")
+add_to_vector("# Another comment here")
+add_to_vector("# Reminder: Keep your code clean")
+
+# Print out the vector's contents
+print(vector)
+```
+In this example, we define a function that mimics the behavior of `push_back` by appending items to a Python list.</code></pre>
+            <pre><code>```python
+# Initialize an empty list
+vector = []
+
+# Function to simulate building a vector of integers
+def add_integers(nums):
+    for num in nums:
+        vector.append(num)  # Mimicking push_back behavior
+
+# Add a series of integers to the vector
+add_integers([1, 2, 3, 4, 5])
+
+# Output the list to check its contents
+print(vector)
+```
+This example demonstrates creating a vector and utilizing a function to add multiple integers, similar to how `push_back` is used in C++.</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

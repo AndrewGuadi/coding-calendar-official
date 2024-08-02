@@ -1,0 +1,131 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>acos in java - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the acos method in java. Find examples and best practices.">
+        <meta name="keywords" content="acos, java, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="150">2024-05-29</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>acos</h1>
+            <p>The 'acos' method in Java is a part of the Math class that returns the arc cosine of a specified number in radians. The arc cosine is the inverse cosine function that returns the angle whose cosine is the specified number. The input value must be in the range of -1 to 1, inclusive. If the argument is outside this range, the method will return NaN (Not-a-Number). This method can be used to find the angles in various applications, such as physics simulations or computer graphics.</p>
+            <pre><code>import math
+
+# Calculate the arc cosine of a value
+value = 0.5
+angle_radians = math.acos(value)
+angle_degrees = math.degrees(angle_radians)
+print(f'The arc cosine of {value} is {angle_radians} radians or {angle_degrees} degrees.')</code></pre>
+            <pre><code>import math
+
+# Calculate the arc cosine of -1
+value = -1
+angle_radians = math.acos(value)
+angle_degrees = math.degrees(angle_radians)
+print(f'The arc cosine of {value} is {angle_radians} radians or {angle_degrees} degrees.')</code></pre>
+            <pre><code>import math
+
+# Using acos to determine angle between two vectors
+# Vector A
+A = (1, 0)
+# Vector B
+B = (0, 1)
+
+# Calculate the dot product of A and B
+dot_product = A[0] * B[0] + A[1] * B[1]  
+# Calculate the magnitudes of vector A and B
+magnitude_A = math.sqrt(A[0]**2 + A[1]**2)
+magnitude_B = math.sqrt(B[0]**2 + B[1]**2)
+
+# Calculate the cosine of the angle
+cosine_angle = dot_product / (magnitude_A * magnitude_B)
+
+# Now use acos to find the angle
+angle_radians = math.acos(cosine_angle)
+angle_degrees = math.degrees(angle_radians)
+print(f'The angle between the two vectors is {angle_radians} radians or {angle_degrees} degrees.')</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('java', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('java', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

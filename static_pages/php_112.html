@@ -1,0 +1,122 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>strlen in php - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the strlen method in php. Find examples and best practices.">
+        <meta name="keywords" content="strlen, php, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="112">2024-04-21</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>strlen</h1>
+            <p>The 'strlen' function in PHP is used to determine the length of a string. It returns the number of characters in the string. If you provide an empty string, it will return 0. This method does not count multibyte characters as single characters, so take note when dealing with multi-language strings.</p>
+            <pre><code>For example, if you want to get the length of the string 'Hello World', you can use 'strlen' as follows:
+
+```php
+$string = 'Hello World';
+$length = strlen($string);
+echo 'The length of the string is: ' . $length; // Output: The length of the string is: 11
+```</code></pre>
+            <pre><code>If you have a string that contains characters with different byte sizes, such as 'こんにちは' (which means 'hello' in Japanese), you would do:
+
+```php
+$string = 'こんにちは';
+$length = strlen($string);
+echo 'The length of the string is: ' . $length; // Output may vary, should properly handle multibyte characters
+```</code></pre>
+            <pre><code>In an application where you want to validate user input to ensure it's not empty, you could do:
+
+```php
+$string = '';
+$length = strlen($string);
+if ($length === 0) {
+    echo 'The string is empty.';
+} else {
+    echo 'The length of the string is: ' . $length;
+}
+// Output: The string is empty.
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('php', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('php', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,122 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cap in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the cap method in go. Find examples and best practices.">
+        <meta name="keywords" content="cap, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="49">2024-02-18</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>cap</h1>
+            <p>The 'cap' method in Go is used to return the capacity of a slice, which is the maximum number of elements the slice can hold without allocating additional memory. The capacity of a slice is determined by the underlying array and can be equal to or greater than its length. This method is useful for optimizing memory usage and performance when working with slices in Go.</p>
+            <pre><code>s = make([]int, 5, 10)  # Create a slice with length 5 and capacity 10
+print(cap(s))  # Output: 10
+
+# Using it in a function to demonstrate how capacity behaves:
+def print_slice_info(slice):
+    print('Length:', len(slice))  # Returns the number of elements in the slice
+    print('Capacity:', cap(slice))  # Returns the maximum capacity of the slice
+
+s1 = make([]int, 0, 5)  # Create an empty slice with capacity 5
+print_slice_info(s1)  # Output: Length: 0, Capacity: 5</code></pre>
+            <pre><code>s = []int{1, 2, 3}
+print(cap(s))  # Output: 3  # Since the length equals capacity in this case, it shows the maximum elements
+
+# Demonstrating how appending affects the capacity:
+append(s, 4)  # Appending element 4, capacity remains at 3
+print(cap(s))  # Still Output: 3
+
+append(s, 5)  # Now when we append beyond capacity it reallocates
+print(cap(s))  # Output could vary depending on Go’s memory allocation strategy.</code></pre>
+            <pre><code>s = []int{1, 2, 3, 4, 5}
+print(cap(s))  # Output: 5  
+
+# Showing effect of slicing:
+new_slice = s[1:3]  # Create a new slice from the existing slice
+print('New Slice Length:', len(new_slice))  # Output: 2
+print('New Slice Capacity:', cap(new_slice))  # Output: 4  # Cap of the new slice is calculated based on the original.</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

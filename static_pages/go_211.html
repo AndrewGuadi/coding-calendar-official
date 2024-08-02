@@ -1,0 +1,172 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>close in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the close method in go. Find examples and best practices.">
+        <meta name="keywords" content="close, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="211">2024-07-29</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>close</h1>
+            <p>In Go, the 'close' method is used to close a channel, which signals no more values will be sent on the channel. It is an important part of managing concurrency and ensures that goroutines that may be waiting on values from the channel can safely terminate once they realize the channel is closed. Remember that closing a channel should only be done by the sender, as closing a channel while it's still in use can lead to a panic.</p>
+            <pre><code>import time
+
+ch = create_channel()
+
+def send_values(ch):
+    for i in range(5):
+        ch.send(i)
+        time.sleep(1)
+    ch.close()
+
+
+def receive_values(ch):
+    while True:
+        try:
+            value = ch.receive()
+            print(value)
+        except ChannelClosed:
+            break
+
+# Creating and starting threads for send and receive functions
+thread_send = threading.Thread(target=send_values, args=(ch,))
+thread_receive = threading.Thread(target=receive_values, args=(ch,))
+
+thread_send.start()
+thread_receive.start()
+
+thread_send.join()
+thread_receive.join()</code></pre>
+            <pre><code>def producer(ch):
+    for i in range(5):
+        ch.put(i)
+    ch.close()
+
+
+def consumer(ch):
+    while True:
+        try:
+            item = ch.get(timeout=1)
+            print(f'Consumed: {item}')
+        except Empty:
+            break
+
+# Using queue as channel
+from queue import Queue
+ch = Queue()
+producer_thread = threading.Thread(target=producer, args=(ch,))
+consumer_thread = threading.Thread(target=consumer, args=(ch,))
+
+producer_thread.start()
+consumer_thread.start()
+
+producer_thread.join()
+consumer_thread.join()</code></pre>
+            <pre><code>import threading
+
+ch = create_channel()
+
+def send_values():
+    for i in range(10):
+        ch.send(i)
+    ch.close()
+
+
+def receive_values():
+    for value in ch:
+        print(value)
+
+# Execute functions in threads
+sender = threading.Thread(target=send_values)
+receiver = threading.Thread(target=receive_values)
+
+sender.start()
+receiver.start()
+
+sender.join()
+receiver.join()</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

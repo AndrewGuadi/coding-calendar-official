@@ -1,0 +1,161 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add in csharp - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the Add method in csharp. Find examples and best practices.">
+        <meta name="keywords" content="Add, csharp, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="156">2024-06-04</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>Add</h1>
+            <p>The 'Add' method in C# is typically used to add an element to a collection, such as a list or a dictionary. In the context of a List<T>, it appends the specified object to the end of the list. In the context of a Dictionary<TKey, TValue>, it adds a new key-value pair. This method is essential for modifying collections dynamically at runtime, allowing developers to maintain and manipulate data structures efficiently.</p>
+            <pre><code>using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Example of using Add with List
+        List<string> fruits = new List<string>();
+        fruits.Add("apple");
+        fruits.Add("banana");
+        fruits.Add("cherry");
+
+        Console.WriteLine("List of fruits:");
+        foreach (var fruit in fruits)
+        {
+            Console.WriteLine(fruit);
+        }
+    }
+}</code></pre>
+            <pre><code>using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Example of using Add with Dictionary
+        Dictionary<string, string> capitals = new Dictionary<string, string>();
+        capitals.Add("USA", "Washington, D.C.");
+        capitals.Add("France", "Paris");
+        capitals.Add("Germany", "Berlin");
+
+        Console.WriteLine("Capitals:");
+        foreach (var kvp in capitals)
+        {
+            Console.WriteLine($"The capital of {kvp.Key} is {kvp.Value}");
+        }
+    }
+}</code></pre>
+            <pre><code>using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Example of using Add with custom class
+        List<Person> people = new List<Person>();
+        people.Add(new Person { Name = "Alice", Age = 30 });
+        people.Add(new Person { Name = "Bob", Age = 25 });
+
+        Console.WriteLine("List of people:");
+        foreach (var person in people)
+        {
+            Console.WriteLine($"Name: {person.Name}, Age: {person.Age}");
+        }
+    }
+}
+
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

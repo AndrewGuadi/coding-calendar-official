@@ -1,0 +1,105 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>abs in python - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the abs method in python. Find examples and best practices.">
+        <meta name="keywords" content="abs, python, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="95">2024-04-04</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>abs</h1>
+            <p>The 'abs' method in Python returns the absolute value of a number. The absolute value of a number is the non-negative value of the number without regard to its sign. For example, the absolute value of -3 is 3, and the absolute value of 3 is also 3. The method can be used with integers, floating-point numbers, and complex numbers (in which case it returns the magnitude of the complex number).</p>
+            <pre><code>num = -10
+absolute_value = abs(num)
+print(f'The absolute value of {num} is {absolute_value}')</code></pre>
+            <pre><code>num = 5.67
+absolute_value = abs(num)
+print(f'The absolute value of {num} is {absolute_value}')</code></pre>
+            <pre><code>complex_num = 3 - 4j
+absolute_value = abs(complex_num)
+print(f'The magnitude of {complex_num} is {absolute_value}')</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('python', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('python', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

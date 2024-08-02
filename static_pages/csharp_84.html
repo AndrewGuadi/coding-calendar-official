@@ -1,0 +1,128 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add in csharp - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the Add method in csharp. Find examples and best practices.">
+        <meta name="keywords" content="Add, csharp, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="84">2024-03-24</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>Add</h1>
+            <p>The 'Add' method is typically used in collections, such as lists, dictionaries, or sets in C#. It allows you to insert a new element or item into the collection. Depending on the specific collection type, it might handle logic for ensuring unique entries (like in a set) or simply appending elements (like in a list). This method returns nothing and modifies the existing collection.</p>
+            <pre><code>```python
+# Example of using a list in Python to demonstrate the 'Add' method equivalent.
+my_list = []
+
+# Adding items to the list
+my_list.append('Python')
+my_list.append('Java')
+my_list.append('C#')
+
+print(my_list)  # Output: ['Python', 'Java', 'C#']
+```</code></pre>
+            <pre><code>```python
+# Example using a set in Python for unique values, similar to a C# HashSet.
+my_set = set()
+
+# Adding items to the set
+my_set.add('Python')
+my_set.add('Java')
+my_set.add('Python')  # This won't add a duplicate
+
+print(my_set)  # Output: {'Java', 'Python'} (order may vary)
+```</code></pre>
+            <pre><code>```python
+# Example of a dictionary in Python to show how to add key-value pairs, similar to a C# Dictionary.
+my_dict = {}
+
+# Adding key-value pairs to the dictionary
+my_dict['Python'] = 'A programming language'
+my_dict['Java'] = 'Another programming language'
+
+print(my_dict)  # Output: {'Python': 'A programming language', 'Java': 'Another programming language'}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

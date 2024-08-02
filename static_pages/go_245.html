@@ -1,0 +1,179 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>close in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the close method in go. Find examples and best practices.">
+        <meta name="keywords" content="close, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="245">2024-09-01</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>close</h1>
+            <p>In Go, the 'close' method is used to close a channel, which prevents any further values from being sent on that channel. Closing a channel will not affect any ongoing reads from that channel, but any attempts to send data on a closed channel will cause a panic. It's good practice to close a channel when it is no longer needed, typically from the goroutine that sends data to the channel. To reliably ascertain whether a channel is closed, a two-value assignment can be used to check the status during read operations.</p>
+            <pre><code>```python
+import threading
+import time
+
+def worker(ch):
+    for i in range(5):
+        ch.append(i)
+        time.sleep(1)
+    # closing the channel/ch list by sending a termination signal
+    ch.append(None)  # signaling completion
+
+# Channel as a list
+channel = []
+thread = threading.Thread(target=worker, args=(channel,))
+thread.start()
+
+while True:
+    value = channel.pop(0) if channel else None
+    if value is None:
+        print('Channel closed, exiting...')
+        break  # exiting when channel is closed
+    else:
+        print(f'Received: {value}')
+```</code></pre>
+            <pre><code>```python
+import threading
+import time
+
+def producer(ch):
+    for i in range(5):
+        ch.append(i)
+        time.sleep(0.5)
+    # signaling that no more data will be sent
+    ch.append(None)  # Closing the channel
+
+def consumer(ch):
+    while True:
+        if ch:
+            value = ch.pop(0)
+            if value is None:
+                print('Consumer: Channel closed.')
+                break
+            print(f'Consumer received: {value}')
+        else:
+            time.sleep(0.1)  # Avoid busy-waiting
+
+channel = []
+thread_producer = threading.Thread(target=producer, args=(channel,))
+thread_consumer = threading.Thread(target=consumer, args=(channel,))
+thread_producer.start()
+thread_consumer.start()
+thread_producer.join()
+thread_consumer.join()
+```</code></pre>
+            <pre><code>```python
+import threading
+import time
+
+def number_generator(ch):
+    for i in range(10):
+        ch.append(i)
+        time.sleep(0.5)
+    ch.append(None)  # signal that we're done
+
+def number_consumer(ch):
+    while True:
+        if ch:
+            num = ch.pop(0)  # read from channel
+            if num is None:
+                print('Consumer: Channel closed, stopping.')
+                break
+            print(f'Consumed number: {num}')
+        else:
+            time.sleep(0.1)  # wait for new values
+
+channel = []
+producer_thread = threading.Thread(target=number_generator, args=(channel,))
+consumer_thread = threading.Thread(target=number_consumer, args=(channel,))
+producer_thread.start()
+consumer_thread.start()
+producer_thread.join()
+consumer_thread.join()
+```}}} 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 2-2 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0}}} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0}}} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0}}} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0}}} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0}}} 0% = 0-0 0% = 0-0 0% = 0-0} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0}}} 0% = 0-0}}} 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0 0% = 0-0})</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,157 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>std::vector::push_back in cplus - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the std::vector::push_back method in cplus. Find examples and best practices.">
+        <meta name="keywords" content="std::vector::push_back, cplus, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="138">2024-05-17</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>std::vector::push_back</h1>
+            <p>The 'push_back' method in C++ is used to add a new element to the end of a 'std::vector'. This method dynamically increases the size of the vector by one, allowing the user to store more elements. When called, 'push_back' takes a single argument, which is the value to be added to the vector. It is important to note that the vector may need to allocate more memory if it exceeds its current capacity, which can result in a reallocation of existing elements. This method is often used for building collections of data in dynamic arrays.</p>
+            <pre><code>In this example, we will create a vector of strings and use 'push_back' to add Python code snippets to it:
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main() {
+    std::vector<std::string> pythonCodes;
+    
+    pythonCodes.push_back("def greet():\n    print('Hello, World!')");
+    pythonCodes.push_back("for i in range(5):\n    print(i)");
+    pythonCodes.push_back("class Dog:\n    def bark(self):\n        print('Woof!')");
+    
+    for (const auto& code : pythonCodes) {
+        std::cout << code << std::endl;
+    }
+    return 0;
+}
+```</code></pre>
+            <pre><code>In this example, we will demonstrate how to use 'push_back' to create a vector that stores multiple snippets of Python functions to calculate the factorial:
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main() {
+    std::vector<std::string> factorialFunctions;
+    
+    factorialFunctions.push_back("def factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)");
+    factorialFunctions.push_back("def main():\n    print(factorial(5))");
+    factorialFunctions.push_back("if __name__ == '__main__':\n    main()");
+    
+    for (const auto& function : factorialFunctions) {
+        std::cout << function << std::endl;
+    }
+    return 0;
+}
+```</code></pre>
+            <pre><code>In this final example, we will use 'push_back' to compile a list of Python lambda functions into a vector:
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main() {
+    std::vector<std::string> lambdaFunctions;
+    
+    lambdaFunctions.push_back("square = lambda x: x*x");
+    lambdaFunctions.push_back("add = lambda a, b: a + b");
+    lambdaFunctions.push_back("multiply = lambda a, b: a * b");
+    
+    std::cout << "Defined lambda functions:" << std::endl;
+    for (const auto& lambda : lambdaFunctions) {
+        std::cout << lambda << std::endl;
+    }
+    return 0;
+}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

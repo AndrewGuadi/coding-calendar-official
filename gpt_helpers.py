@@ -99,7 +99,7 @@ class OpenAIHelper:
                 time.sleep(1)
         return data
 
-    def gpt_json(self, prompt, data, example, model="gpt-4o", max_retries=5):
+    def gpt_json(self, prompt, data, example, model="gpt-4o-mini", max_retries=5):
         """
         Sends a prompt to the GPT model and expects a JSON response.
 

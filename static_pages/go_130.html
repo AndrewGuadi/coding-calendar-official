@@ -1,0 +1,123 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cap in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the cap method in go. Find examples and best practices.">
+        <meta name="keywords" content="cap, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="130">2024-05-09</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>cap</h1>
+            <p>The 'cap' method in Go is used to return the capacity of a slice, which is the total number of elements that the slice can hold without requiring reallocation. Capacity may be equal to or greater than the length of the slice; when the length exceeds the capacity, a new underlying array will be allocated. This method is useful for understanding the memory allocation and sizing of slices when optimizing performance or when you need to manage memory efficiently.</p>
+            <pre><code>```python
+# Example 1: Understanding slice capacity in Go
+# In Go, if you create a slice with a specific length and capacity
+# you can check its capacity using the cap function.
+# A demonstration would be:
+slice := make([]int, 3, 5)  # Length is 3, capacity is 5
+fmt.Println(cap(slice))  # Outputs: 5
+```</code></pre>
+            <pre><code>```python
+# Example 2: Changing the size of a slice
+# When you append to a slice and its length exceeds the initial capacity,
+# a new array is allocated and capacity increases. 
+# Demonstration:
+slice := []int{1, 2, 3}
+fmt.Println(cap(slice))  # Outputs: 3
+slice = append(slice, 4, 5)
+fmt.Println(cap(slice))  # Might output: 6 (if a new array was allocated)
+```</code></pre>
+            <pre><code>```python
+# Example 3: Preallocating a slice for efficiency
+# Using cap to optimize memory allocation by pre-defining a slice capacity.
+# Demonstration:
+prealloc := make([]int, 0, 10)  # Preallocate with capacity of 10
+for i in range(10):
+    prealloc = append(prealloc, i)
+fmt.Println(cap(prealloc))  # Outputs: 10
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

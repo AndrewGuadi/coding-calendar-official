@@ -1,0 +1,156 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>std::vector::push_back in cplus - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the std::vector::push_back method in cplus. Find examples and best practices.">
+        <meta name="keywords" content="std::vector::push_back, cplus, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="264">2024-09-20</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>std::vector::push_back</h1>
+            <p>The 'push_back' method in C++'s std::vector class is used to add a new element at the end of the vector. When an element is pushed back, the size of the vector increases by one. If the current capacity of the vector is exceeded, the vector automatically allocates more memory to accommodate the new element. This method takes a single argument, which is the element to be added, and it is generally efficient as it can amortize its time complexity to O(1).</p>
+            <pre><code>```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<std::string> fruits;
+    
+    // Adding elements to the vector
+    fruits.push_back("apple");
+    fruits.push_back("banana");
+    fruits.push_back("cherry");
+    
+    // Displaying the contents of the vector
+    for (const auto& fruit : fruits) {
+        std::cout << fruit << std::endl;
+    }
+    return 0;
+}
+```</code></pre>
+            <pre><code>```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<std::string> languages;
+    
+    // Adding elements using push_back method
+    languages.push_back("Python");
+    languages.push_back("Java");
+    languages.push_back("C++");
+    
+    std::cout << "Programming Languages:" << std::endl;
+    // Displaying the contents of the vector
+    for (int i = 0; i < languages.size(); ++i) {
+        std::cout << languages[i] << std::endl;
+    }
+    return 0;
+}
+```</code></pre>
+            <pre><code>```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<std::string> countries;
+    
+    // Using push_back to add elements to the vector
+    countries.push_back("USA");
+    countries.push_back("Canada");
+    countries.push_back("Mexico");
+    countries.push_back("Brazil");
+    
+    // Displaying the contents of the vector
+    std::cout << "Countries included in the vector:" << std::endl;
+    for (auto country : countries) {
+        std::cout << country << std::endl;
+    }
+    return 0;
+}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

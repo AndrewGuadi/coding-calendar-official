@@ -1,0 +1,151 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>append in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the append method in go. Find examples and best practices.">
+        <meta name="keywords" content="append, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="17">2024-01-17</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>append</h1>
+            <p>In Go, the 'append' function is used to add elements to the end of a slice. It takes a slice and one or more elements to append and returns the updated slice. When appending to a slice, if the underlying array is full, a new array will be allocated, and the content will be copied to the new array. This method is commonly used to dynamically grow slices without needing to explicitly manage the capacity of the underlying array.</p>
+            <pre><code>```
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Initial slice
+    words := []string{"
+    ", "world"}
+    // Append a new word
+    words = append(words, "hello")
+    // Append multiple words
+    words = append(words, "from", "Go")
+
+    // Print the result
+    fmt.Println(words)
+}
+```</code></pre>
+            <pre><code>```
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a slice of integers
+    nums := []int{1, 2, 3}
+    // Append more integers
+    nums = append(nums, 4, 5, 6)
+
+    // Print the updated slice
+    fmt.Println(nums)
+}
+```</code></pre>
+            <pre><code>```
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Start with an empty slice
+    var fruits []string
+    // Append fruits to the slice
+    fruits = append(fruits, "apple")
+    fruits = append(fruits, "banana", "cherry")
+
+    // Print the final slice of fruits
+    fmt.Println(fruits)
+}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

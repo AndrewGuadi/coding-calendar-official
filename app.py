@@ -37,15 +37,14 @@ def fetch_data_from_gpt(language, method):
     intent_message = "Generate a programming method description and example code."
     openai_helper = OpenAIHelper(api_key, intent_message)
     
-    prompt = f"Provide a detailed description and example for the method '{method}' in {language}."
+    prompt = f"Provide a detailed description and example for the method '{method}' in {language}. [For examples you must only use python code as value - as it will directly used in code. Each example must include a complete example/clearly defined logic of usage of code]"
     data = ""  # Assuming no additional context needed
-    example = '{"method": "", "description": "", "example": ""}'  # Expected JSON format
-
+    example = '{"method": "", "description": "", "examples": {example_1": "", example_2: "", example_3:""} }'  # Expected JSON format
+    
     response = openai_helper.gpt_json(prompt, data, example)
 
     if response:
         # Ensure the example is a string
-        response['example'] = str(response['example'])
         return response
     
     return {
@@ -54,8 +53,11 @@ def fetch_data_from_gpt(language, method):
         "example": "No example available."
     }
 
+
+
 def save_data_to_database(day, language, data):
-    method = Method(day=day, language=language, method=data["method"], description=data["description"], example=data["example"])
+    examples_data = json.dumps(data['examples'])
+    method = Method(day=day, language=language, method=data["method"], description=data["description"], example=examples_data)
     db.session.add(method)
     db.session.commit()
 
@@ -73,6 +75,7 @@ def remove_method_from_json(language, method):
         json.dump(methods, file)
 
 def create_static_page(language, day, method_data):
+
     language_key = language.lower()
     file_name = f"{language_key}_{day}.html"
     output_dir = 'static_pages'
@@ -158,7 +161,9 @@ def create_static_page(language, day, method_data):
             </div>
             <h1>{method_name}</h1>
             <p>{method_description}</p>
-            <pre><code>{example}</code></pre>
+            <pre><code>{example_1}</code></pre>
+            <pre><code>{example_2}</code></pre>
+            <pre><code>{example_3}</code></pre>
         </div>
         <script>
             function navigateToDate(language, dayOfYear) {{
@@ -187,16 +192,18 @@ def create_static_page(language, day, method_data):
 
     # Generate HTML content
     html_content = html_template.format(
-        title=title,
-        description=description,
-        keywords=keywords,
-        method_name=method_data['method'],
-        method_description=method_data['description'],
-        example=method_data['example'],
-        formatted_date=formatted_date,
-        day=day,
-        language=language
-    )
+    title=title,
+    description=description,
+    keywords=keywords,
+    method_name=method_data.get('method', 'Default Method Name'),
+    method_description=method_data.get('description', 'Default Description'),
+    example_1=method_data.get('examples', {}).get('example_1', 'No example available.'),
+    example_2=method_data.get('examples', {}).get('example_2', 'No example available.'),
+    example_3=method_data.get('examples', {}).get('example_3', 'No example available.'),
+    formatted_date=formatted_date,
+    day=day,
+    language=language
+)
     
     # Save the HTML file
     with open(os.path.join(output_dir, file_name), 'w') as output_file:
@@ -217,37 +224,15 @@ def get_method(language):
         day = int(day)
 
     decoded_language = unquote(language)
-    data = query_database(day, decoded_language)
-    
-    if data is None:
-        with open('methods.json', 'r') as file:
-            methods = json.load(file)
-        
-        # Normalize the language key to match the JSON keys
-        language_key = decoded_language.lower()
-        print(f"Accessing methods for language key: {language_key}")  # Add logging
-        
-        if language_key in methods and methods[language_key]:
-            method_name = methods[language_key][0]
-            method_data = fetch_data_from_gpt(decoded_language, method_name)
-            save_data_to_database(day, decoded_language, method_data)
-            remove_method_from_json(decoded_language, method_name)
-            create_static_page(decoded_language, day, method_data)
-            data = method_data
-        else:
-            print(f"No methods found for language: {language_key}")  # Add logging
-            return jsonify({"error": "No more methods available for this language."}), 404
-    else:
-        static_page_path = f"static_pages/{decoded_language.lower()}_{day}.html"
-        if os.path.exists(static_page_path):
-            return send_from_directory('static_pages', f"{decoded_language.lower()}_{day}.html")
-        else:
-            data = {
-                "method": data.method,
-                "description": data.description,
-                "example": data.example
-            }
-    
+    query_data = query_database(day, decoded_language)
+
+    data = {
+        "method": query_data.method,
+        "description": query_data.description,
+        "examples": json.loads(query_data.example)
+    }
+
+    print(data)
     return jsonify(data)
 
 @app.route('/static_pages/<path:filename>')

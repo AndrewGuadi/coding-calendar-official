@@ -1,0 +1,123 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cap in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the cap method in go. Find examples and best practices.">
+        <meta name="keywords" content="cap, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="44">2024-02-13</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>cap</h1>
+            <p>The 'cap' method in Go is used to determine the capacity of a slice. The capacity of a slice is defined as the number of elements the slice can hold before needing to allocate more memory. This method is particularly useful for optimizing memory usage and understanding how slices grow in Go. It is important to note that the capacity is always greater than or equal to the length of the slice, and can be checked using the built-in 'cap()' function.</p>
+            <pre><code>s = []int{1, 2, 3}
+length = len(s)  # Output: 3
+capacity = cap(s)  # Output: 3
+
+# Creating a larger slice.
+s = make([]int, 0, 5)  # Length: 0, Capacity: 5
+length = len(s)  # Output: 0
+capacity = cap(s)  # Output: 5</code></pre>
+            <pre><code>s = []string{'a', 'b', 'c', 'd'}
+length = len(s)  # Output: 4
+capacity = cap(s)  # Output: 4
+
+# Doubling the slice
+s = append(s, 'e', 'f')  # Now length is 6
+length = len(s)  # Output: 6
+capacity = cap(s)  # Output: 8 (if reallocation happened)</code></pre>
+            <pre><code>s = make([]float64, 2, 10)  # Length: 2, Capacity: 10
+length = len(s)  # Output: 2
+capacity = cap(s)  # Output: 10
+
+# Filling the slice
+s[0] = 3.14
+s[1] = 2.71
+
+# Checking again
+length = len(s)  # Output: 2
+capacity = cap(s)  # Output: 10</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

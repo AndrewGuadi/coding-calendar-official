@@ -1,0 +1,162 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add in csharp - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the Add method in csharp. Find examples and best practices.">
+        <meta name="keywords" content="Add, csharp, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="315">2024-11-10</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>Add</h1>
+            <p>The 'Add' method in C# is commonly used in collections such as lists, dictionaries, or sets to add a new element to the collection. It allows you to insert an item into the collection, thereby expanding its contents. This method typically takes the item to be added as an argument. The specifics can vary based on the type of collection being used.</p>
+            <pre><code>Using a List to store Python code snippets: 
+
+```csharp
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> codeSnippets = new List<string>();
+        codeSnippets.Add("print('Hello, World!')");
+        codeSnippets.Add("for i in range(5): print(i)");
+        codeSnippets.Add("def add(a, b): return a + b");
+
+        foreach (var snippet in codeSnippets)
+        {
+            Console.WriteLine(snippet);
+        }
+    }
+}
+```</code></pre>
+            <pre><code>Using a Dictionary to map keys to Python code functions: 
+
+```csharp
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        Dictionary<string, string> codeFunctions = new Dictionary<string, string>();
+        codeFunctions.Add("hello_function", "def hello(): print('Hello')");
+        codeFunctions.Add("sum_function", "def sum(a, b): return a + b");
+        codeFunctions.Add("square_function", "def square(x): return x * x");
+
+        foreach (var entry in codeFunctions)
+        {
+            Console.WriteLine(entry.Key + " : " + entry.Value);
+        }
+    }
+}
+```</code></pre>
+            <pre><code>Using a HashSet to store unique Python code snippets:
+
+```csharp
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        HashSet<string> uniqueCodeSnippets = new HashSet<string>();
+        uniqueCodeSnippets.Add("print('Hello')");
+        uniqueCodeSnippets.Add("def greet(): print('Greetings')");
+        uniqueCodeSnippets.Add("print('Hello')"); // Duplicate snippet, won’t be added
+
+        foreach (var snippet in uniqueCodeSnippets)
+        {
+            Console.WriteLine(snippet);
+        }
+    }
+}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('csharp', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

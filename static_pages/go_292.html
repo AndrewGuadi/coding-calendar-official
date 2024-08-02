@@ -1,0 +1,168 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>close in go - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the close method in go. Find examples and best practices.">
+        <meta name="keywords" content="close, go, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="292">2024-10-18</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>close</h1>
+            <p>The 'close' method in Go is typically used to close resources such as files, network connections, or other types of streams. When you call 'close' on an open resource, it signals that you are done with it and frees the associated resources. It is essential to use this method to prevent resource leaks, which can lead to performance issues or program crashes. In the context of file operations, for example, closing a file is crucial after you have completed writing to or reading from it. If the resource is already closed, calling 'close' again may lead to a panic in the program, unless specifically handled. Therefore, it is a common practice to use 'defer' to ensure that 'close' is called when a function returns, even if an error occurs earlier in the function.</p>
+            <pre><code>```python
+import json
+
+# Simulating a resource that needs to be closed
+class CustomResource:
+    def __init__(self):
+        self.opened = True
+
+    def close(self):
+        if self.opened:
+            print("Resource closed.")
+            self.opened = False
+        else:
+            print("Resource is already closed.")
+
+    def use(self):
+        if self.opened:
+            print("Using resource.")
+        else:
+            print("Cannot use, resource is closed.")
+
+# Example usage
+resource = CustomResource()
+resource.use()  # Using resource
+resource.close()  # Closing resource
+resource.use()  # Attempting to use after closing
+```</code></pre>
+            <pre><code>```python
+class FileExample:
+    def __init__(self, filename):
+        self.filename = filename
+        self.file = open(self.filename, 'w')
+
+    def write_data(self, data):
+        self.file.write(data)
+
+    def close_file(self):
+        self.file.close()
+
+    def show_data(self):
+        # This is to show we can work only if file is opened
+        print(f'Writing data to {self.filename}')
+
+# Example usage
+file_example = FileExample('example.txt')
+file_example.show_data()
+file_example.write_data('Hello, World!') 
+file_example.close_file()  # Properly closing the file after writing
+```</code></pre>
+            <pre><code>```python
+class Connection:
+    def __init__(self):
+        self.connected = True
+
+    def connect(self):
+        if not self.connected:
+            print("Reconnecting...")
+            self.connected = True
+            print("Connected.")
+
+    def disconnect(self):
+        if self.connected:
+            print("Disconnecting...")
+            self.connected = False
+            print("Disconnected.")
+
+# Example usage
+conn = Connection()
+conn.disconnect()  # Disconnecting connection
+conn.disconnect()  # Trying to disconnect again
+conn.connect()  # Reconnecting
+```}}}   ```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('go', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('go', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    
