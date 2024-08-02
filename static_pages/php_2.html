@@ -1,0 +1,111 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>str_replace in php - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the str_replace method in php. Find examples and best practices.">
+        <meta name="keywords" content="str_replace, php, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="2">2024-01-02</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>str_replace</h1>
+            <p>The 'str_replace' function in PHP is used to replace all occurrences of a given search string with a replacement string in a specified input string. It can be particularly useful for modifying text data, such as user inputs, configuration values, or any other string manipulation tasks. The function is case-sensitive, meaning it will differentiate between uppercase and lowercase letters in the search string. It can also handle arrays as both the search and replacement parameters, allowing for multiple substitutions in one call.</p>
+            <pre><code>original_string = 'The quick brown fox jumps over the lazy dog.'
+search = 'fox'
+replace = 'cat'
+result = str_replace(search, replace, original_string)
+# Output: 'The quick brown cat jumps over the lazy dog.'</code></pre>
+            <pre><code>original_string = 'I like to code in Python. Python is great!'
+search = 'Python'
+replace = 'PHP'
+result = str_replace(search, replace, original_string)
+# Output: 'I like to code in PHP. PHP is great!'</code></pre>
+            <pre><code>original_string = 'Hello World!'
+search = ['Hello', 'World']
+replace = ['Hi', 'Everyone']
+result = str_replace(search, replace, original_string)
+# Output: 'Hi Everyone!'</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('php', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('php', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

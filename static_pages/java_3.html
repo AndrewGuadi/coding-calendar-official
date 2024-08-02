@@ -1,0 +1,108 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>addAll in java - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the addAll method in java. Find examples and best practices.">
+        <meta name="keywords" content="addAll, java, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="3">2024-01-03</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>addAll</h1>
+            <p>The 'addAll' method in Java is used to add all elements from a specified collection (such as a list or set) to another collection. This method is particularly useful when you want to combine multiple collections into one without requiring a loop to add each element individually. The method alters the collection it is called on by adding all the elements from the specified collection. It's commonly found in classes that implement the 'Collection' interface, like 'ArrayList', 'HashSet', etc.</p>
+            <pre><code>list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+list1.extend(list2)  # Adding all elements from list2 to list1
+print(list1)  # Output: [1, 2, 3, 4, 5, 6]</code></pre>
+            <pre><code>set1 = {'apple', 'banana'}
+set2 = {'cherry', 'date'}
+set1.update(set2)  # Adding all elements from set2 to set1
+print(set1)  # Output: {'apple', 'banana', 'cherry', 'date'}</code></pre>
+            <pre><code>dict1 = {'a': 1, 'b': 2}
+dict2 = {'c': 3, 'd': 4}
+dict1.update(dict2)  # Adding all key-value pairs from dict2 to dict1
+print(dict1)  # Output: {'a': 1, 'b': 2, 'c': 3, 'd': 4}</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('java', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('java', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

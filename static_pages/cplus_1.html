@@ -1,0 +1,135 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>std::vector::pop_back in cplus - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the std::vector::pop_back method in cplus. Find examples and best practices.">
+        <meta name="keywords" content="std::vector::pop_back, cplus, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="1">2024-01-01</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>std::vector::pop_back</h1>
+            <p>The method 'std::vector::pop_back' removes the last element from the vector. This method effectively reduces the size of the vector by one but does not necessarily free the memory associated with the removed element. It's important to note that using this method on an empty vector leads to undefined behavior. Typically, this method is used when you need to remove the most recently added element from the list of elements stored in a vector.</p>
+            <pre><code>```python
+# Initializing a list to simulate a vector
+vector = [1, 2, 3, 4, 5]
+
+# Function to pop back the last element
+def pop_back(lst):
+    if len(lst) > 0:
+        lst.pop()  # Removes the last element
+
+# Using the function
+pop_back(vector)
+print(vector)  # Output: [1, 2, 3, 4]
+```</code></pre>
+            <pre><code>```python
+# Initializing a list to simulate a vector
+vector = ['apple', 'banana', 'cherry']
+
+# Function to pop back the last element
+def pop_back(lst):
+    if len(lst) > 0:
+        lst.pop()  # Removes the last element
+
+# Using the function
+pop_back(vector)
+print(vector)  # Output: ['apple', 'banana']
+```</code></pre>
+            <pre><code>```python
+# Initializing a list to simulate a vector
+vector = [True, False, True]
+
+# Function to pop back the last element
+def pop_back(lst):
+    if len(lst) > 0:
+        lst.pop()  # Removes the last element
+
+# Using the function
+pop_back(vector)
+print(vector)  # Output: [True, False]
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('cplus', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

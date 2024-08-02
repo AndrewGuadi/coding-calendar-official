@@ -1,0 +1,130 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>append in java - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the append method in java. Find examples and best practices.">
+        <meta name="keywords" content="append, java, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="4">2024-01-04</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>append</h1>
+            <p>The 'append' method in Java is commonly used in the context of certain classes like StringBuilder and ArrayList. For StringBuilder, 'append' is used to add strings or objects to the end of the current StringBuilder object. For ArrayList, it is used to add an element at the end of the list. This method increases the size of the collection when adding a new element. For string concatenation, 'append' is more efficient than using the plus operator (+) as it avoids creating multiple immutable String instances.</p>
+            <pre><code>```java
+public class Example {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('Hello');
+        sb.append(' World!');
+        System.out.println(sb.toString()); // Output: Hello World!
+    }
+}
+```</code></pre>
+            <pre><code>```java
+import java.util.ArrayList;
+
+public class Example {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.append('First');
+        list.append('Second');
+        System.out.println(list); // Output: [First, Second]
+    }
+}
+```</code></pre>
+            <pre><code>```java
+import java.util.LinkedList;
+
+public class Example {
+    public static void main(String[] args) {
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.append('Node1');
+        linkedList.append('Node2');
+        System.out.println(linkedList); // Output: [Node1, Node2]
+    }
+}
+```</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('java', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('java', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

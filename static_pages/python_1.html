@@ -1,0 +1,105 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>all in python - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the all method in python. Find examples and best practices.">
+        <meta name="keywords" content="all, python, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="1">2024-01-01</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>all</h1>
+            <p>The 'all' method in Python is a built-in function that takes an iterable (such as a list, tuple, or set) as an argument and returns True if all elements of the iterable are truthy (evaluate to True). If at least one element is falsy (evaluates to False), it returns False. An empty iterable also evaluates to True. The method is useful for quickly checking the conditions of all items in a collection.</p>
+            <pre><code>numbers = [1, 2, 3, 4, 5]
+result = all(num > 0 for num in numbers)
+print(result)  # Output: True</code></pre>
+            <pre><code>requirements_met = ['installed', 'configured', 'running']
+result = all(status == 'running' for status in requirements_met)
+print(result)  # Output: False</code></pre>
+            <pre><code>permissions = {'read': True, 'write': True, 'execute': False}
+result = all(permissions.values())
+print(result)  # Output: False</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('python', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('python', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

@@ -1,0 +1,106 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>concat in javascript - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the concat method in javascript. Find examples and best practices.">
+        <meta name="keywords" content="concat, javascript, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="2">2024-01-02</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>concat</h1>
+            <p>The concat() method in JavaScript is used to merge two or more arrays. This method does not change the existing arrays but instead returns a new array containing the values of the joined arrays. The syntax for this method is `array1.concat(array2, array3, ..., arrayN)`, where `array1` is the base array and the remaining arrays are the ones to be concatenated. This method can also take in values (like numbers or objects) that are not arrays. The resulting array is a combination of the arrays or values passed to the method.</p>
+            <pre><code>array1 = ['a', 'b', 'c']
+array2 = ['d', 'e']
+result = array1.concat(array2) # result: ['a', 'b', 'c', 'd', 'e'] </code></pre>
+            <pre><code>array1 = [1, 2, 3]
+array2 = [4, 5]
+array3 = [6, 7]
+result = array1.concat(array2, array3) # result: [1, 2, 3, 4, 5, 6, 7]</code></pre>
+            <pre><code>array1 = ['apple', 'banana']
+values = [1, 2, 3]
+result = array1.concat(values) # result: ['apple', 'banana', 1, 2, 3]</code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('javascript', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('javascript', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    

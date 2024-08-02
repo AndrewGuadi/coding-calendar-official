@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Method of the Day - {{ data.method }}</title>
+    <meta name="description" content="Discover the best coding practices, Python programming examples, JavaScript code snippets, and more. Enhance your skills with daily coding problems and advanced programming tips.">
+    <meta name="keywords" content="Best Coding Practices, Python Programming Examples, JavaScript Code Snippets, Learn to Code for Free, Web Development Tips, Software Development Techniques, Coding Tutorials for Beginners, Advanced Programming Tips, Daily Coding Problems, How to Improve Coding Skills">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333;
+            color: #00FF00;
+        }
+        .container {
+            max-width: 90%;
+            background: #000000;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+        header {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .date-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .date {
+            background: black;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5em;
+            padding: 10px 20px;
+            border: 2px solid #00FF00;
+            border-radius: 8px;
+            text-align: center;
+            display: inline-block;
+        }
+        .arrow {
+            cursor: pointer;
+            font-size: 2em;
+            margin: 0 10px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #444444;
+            color: #00FF00;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        code {
+            color: #00FF00;
+        }
+    </style>
+</head>
+<body>
+    <header>the CODING CALENDAR</header>
+    <div class="date-container">
+        <div class="arrow" id="left-arrow">&#8592;</div>
+        <div class="date" id="date" data-day-of-year="{{ day }}">{{ formatted_date }}</div>
+        <div class="arrow" id="right-arrow">&#8594;</div>
+    </div>
+    <div class="container">
+        <div class="section">
+            <h2>{{ data.method }}</h2>
+            <p>{{ data.description }}</p>
+            <pre><code>{{ examples.example_1 }}</code></pre>
+            <pre><code>{{ examples.example_2 }}</code></pre>
+            <pre><code>{{ examples.example_3 }}</code></pre>
+        </div>
+    </div>
+    <script>
+        function navigateToDate(language, dayOfYear) {
+            window.location.href = `/method/${language}/${dayOfYear}`;
+        }
+
+        document.getElementById('left-arrow').addEventListener('click', function () {
+            let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+            currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+            navigateToDate('{{ language }}', currentDayOfYear);
+        });
+
+        document.getElementById('right-arrow').addEventListener('click', function () {
+            let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+            currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+            navigateToDate('{{ language }}', currentDayOfYear);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>strpos in php - Best Coding Practices</title>
+        <meta name="description" content="Learn how to use the strpos method in php. Find examples and best practices.">
+        <meta name="keywords" content="strpos, php, Best Coding Practices, Programming Examples">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #333;
+                color: #00FF00;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #000000;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                text-align: center;
+            }
+            pre {
+                background: #444444;
+                color: #00FF00;
+                padding: 10px;
+                border-radius: 4px;
+                overflow-x: auto;
+            }
+            code {
+                color: #00FF00;
+            }
+            .date-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .date {
+                background: black;
+                color: #00FF00; /* Matrix green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.5em;
+                padding: 10px 20px;
+                border: 2px solid #00FF00;
+                border-radius: 8px;
+                text-align: center;
+                display: inline-block;
+            }
+            .arrow {
+                cursor: pointer;
+                font-size: 2em;
+                margin: 0 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="date-container">
+                <div class="arrow" id="left-arrow">&#8592;</div>
+                <div class="date" id="date" data-day-of-year="1">2024-01-01</div>
+                <div class="arrow" id="right-arrow">&#8594;</div>
+            </div>
+            <h1>strpos</h1>
+            <p>The `strpos` function is used in PHP to find the position of the first occurrence of a substring within a string. It returns the index of the first match or false if the substring is not found. The search is case-sensitive, and the function can take an optional third parameter to specify the starting position for the search in the string.</p>
+            <pre><code>$string = 'This is a simple PHP example';
+$substring = 'PHP';
+$position = strpos($string, $substring);
+echo 'The position of PHP is: ' . $position;</code></pre>
+            <pre><code>$string = 'Welcome to the PHP world';
+$substring = 'welcome';
+$position = strpos($string, $substring);
+if ($position === false) {
+    echo 'Substring not found!';
+} else {
+    echo 'Substring found at position: ' . $position;
+}</code></pre>
+            <pre><code>$string = 'Multiple PHP examples';
+$substring = 'PHP';
+$position = strpos($string, $substring, 10);
+echo 'Searching for PHP after position 10: ' . $position; </code></pre>
+        </div>
+        <script>
+            function navigateToDate(language, dayOfYear) {
+                window.location.href = `/?language=${language}&day=${dayOfYear}`;
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear > 1 ? currentDayOfYear - 1 : 365;
+                navigateToDate('php', currentDayOfYear);
+            });
+
+            document.getElementById('right-arrow').addEventListener('click', function() {
+                let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+                currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
+                navigateToDate('php', currentDayOfYear);
+            });
+        </script>
+    </body>
+    </html>
+    
