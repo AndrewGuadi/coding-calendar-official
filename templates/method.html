@@ -71,6 +71,17 @@
         code {
             color: #00FF00;
         }
+        .language-dropdown {
+            background: black;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            width: 250px;
+        }
     </style>
 </head>
 <body>
@@ -79,6 +90,13 @@
         <div class="arrow" id="left-arrow">&#8592;</div>
         <div class="date" id="date" data-day-of-year="{{ day }}">{{ formatted_date }}</div>
         <div class="arrow" id="right-arrow">&#8594;</div>
+    </div>
+    <div class="dropdown-container">
+        <select class="language-dropdown" id="language-select">
+            {% for language_option in languages %}
+            <option value="{{ language_option }}" {% if language_option == language %}selected{% endif %}>{{ language_option }}</option>
+            {% endfor %}
+        </select>
     </div>
     <div class="container">
         <div class="section">
@@ -91,7 +109,8 @@
     </div>
     <script>
         function navigateToDate(language, dayOfYear) {
-            window.location.href = `/method/${language}/${dayOfYear}`;
+            const encodedLanguage = encodeURIComponent(language);
+            window.location.href = `/method/${encodedLanguage}/${dayOfYear}`;
         }
 
         document.getElementById('left-arrow').addEventListener('click', function () {
@@ -104,6 +123,12 @@
             let currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
             currentDayOfYear = currentDayOfYear < 365 ? currentDayOfYear + 1 : 1;
             navigateToDate('{{ language }}', currentDayOfYear);
+        });
+
+        document.getElementById('language-select').addEventListener('change', function () {
+            const selectedLanguage = this.value;
+            const currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
+            navigateToDate(selectedLanguage, currentDayOfYear);
         });
     </script>
 </body>

@@ -25,6 +25,7 @@ def get_current_day_of_year():
     return now.timetuple().tm_yday
 
 def query_database(day, language):
+    language = language.capitalize()
     return Method.query.filter_by(day=day, language=language).first()
 
 @app.route('/')
@@ -34,9 +35,14 @@ def index():
 
 @app.route('/method/<language>/<int:day>', methods=['GET'])
 def get_method(language, day):
+    language_mapping = {
+        "C#": "csharp",
+        "C++": "cplus"
+    }
     decoded_language = unquote(language)
-    
-    query_data = query_database(day, decoded_language)
+    safe_language = language_mapping.get(decoded_language, decoded_language)
+    print(safe_language)
+    query_data = query_database(day, safe_language)
     if not query_data:
         return render_template('404.html'), 404
     
@@ -48,7 +54,9 @@ def get_method(language, day):
         "description": query_data.description,
     }
     examples = json.loads(query_data.example)
-    return render_template('method.html', data=data, examples=examples, day=day, language=decoded_language, formatted_date=formatted_date)
+    languages = ["Python", "JavaScript", "Java", "C#", "C++", "PHP", "TypeScript", "Ruby", "Swift", "Go"]
+
+    return render_template('method.html', data=data, examples=examples, day=day, language=language, formatted_date=formatted_date, languages=languages)
 
 @app.errorhandler(404)
 def page_not_found(e):
