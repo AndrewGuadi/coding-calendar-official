@@ -86,3 +86,7 @@ $RECYCLE.BIN/
 *.idea/
 *.iml
 *.iws
+
+
+instance/
+migrations/
