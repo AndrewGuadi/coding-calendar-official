@@ -11,6 +11,7 @@
     color: green;
     font-family: 'Courier New', monospace;
     overflow: hidden;
+    font-size: 4vw;
   }
 
   .matrix {
@@ -37,6 +38,12 @@
     box-sizing: border-box;
     background: #333;
     z-index: 1;
+  }
+
+  @media only screen and (min-width: 762px) {
+    body {
+      font-size: 2vw;
+    }
   }
 </style>
 </head>
@@ -88,7 +95,15 @@ function matrixEffect() {
 
 // Typing Effect
 function typeEffect() {
-  const text = "Welcome to Coding Calendar... Discover more about the power of collaboration in programming.";
+  const text = `At Coding Calendar, we believe in the power of collaboration and exploration to unlock the full potential of programming. Our mission is to provide developers with a unique resource that goes beyond standard documentation, offering innovative methods and insights to deepen your understanding of programming languages.
+
+This platform was born out of a personal journey of growth and learning. With limited knowledge of databases and JavaScript, we set out to create a tool that would not only help us but also serve the broader programming community. Today, with enhanced skills and a commitment to excellence, we aim to continually improve and expand this resource.
+
+Our purpose is to contribute to the vast and ever-evolving field of information technology. We recognize that learning is a lifelong process and that collaboration is essential. By sharing our knowledge and experiences, we hope to empower others to innovate and succeed in their own coding endeavors.
+
+We are dedicated to optimizing our platform for better accessibility and visibility, ensuring that more people can benefit from the resources we provide. As we grow, we are committed to incorporating user feedback to make Coding Calendar even more valuable to our community.
+
+Thank you for being a part of this journey. Together, we can explore new possibilities and achieve great things in the world of programming.`;
   let i = 0;
   let speed = 50;  // Speed in milliseconds
   let purposeText = document.getElementById("purposeText");
