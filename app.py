@@ -90,7 +90,7 @@ def get_method(language, day):
         with open('methods_updated.json', 'r', encoding='utf-8') as file:
             method_data = json.load(file)
         json_language = safe_language.lower()
-        method_list = method_data[json_language]
+        method_list = method_data[language.lower()]
         method_name = method_list[day - 1]  # Adjusting for 0-based index
         gpt_data = fetch_data_from_gpt(safe_language, method_name)
         save_data_to_database(day, safe_language, gpt_data)
@@ -118,12 +118,17 @@ def page_not_found(e):
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
     language_mapping = {
-        "Csharp": "C#",
-        "Cplus": "C++"
+        "csharp": "C#",
+        "cplus": "C++"
     }
     
     methods = Method.query.all()
     urls = []
+    
+    # Add index page URL
+    index_url = "http://www.codingcalendar.com/"
+    urls.append(index_url)
+    
     for method in methods:
         language_display = language_mapping.get(method.language, method.language)
         language_encoded = quote(language_display)
@@ -138,10 +143,12 @@ def sitemap():
     <url>
         <loc>{url}</loc>
         <lastmod>{datetime.utcnow().date()}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
 """
     sitemap_xml += "</urlset>"
     return Response(sitemap_xml, mimetype='application/xml')
-
+    
 if __name__ == '__main__':
     app.run(debug=True)
