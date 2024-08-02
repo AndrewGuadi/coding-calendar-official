@@ -229,7 +229,7 @@ def get_method(language):
     data = {
         "method": query_data.method,
         "description": query_data.description,
-        "examples": json.loads(query_data.example)
+        "examples": json.loads(data.example)
     }
 
     print(data)
