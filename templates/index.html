@@ -35,6 +35,11 @@
             font-size: 1.2em;
             width: 250px;
         }
+        .loading {
+            font-size: 1.5em;
+            margin-top: 20px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -47,10 +52,29 @@
             {% endfor %}
         </select>
     </div>
+    <div class="loading" id="loading">Loading</div>
     <script>
+        const loadingText = document.getElementById('loading');
+        let dotCount = 0;
+        let loadingInterval;
+
+        function startLoadingAnimation() {
+            loadingText.style.display = 'block';
+            loadingInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4; // Cycle through 0 to 3
+                loadingText.textContent = 'Loading' + '.'.repeat(dotCount);
+            }, 500); // Update every 500ms
+        }
+
+        function stopLoadingAnimation() {
+            clearInterval(loadingInterval);
+            loadingText.style.display = 'none';
+        }
+
         document.getElementById('language-select').addEventListener('change', function () {
             const language = this.value;
             if (language !== 'Choose your language:') {
+                startLoadingAnimation();
                 const currentDate = new Date();
                 const dayOfYear = Math.floor((currentDate - new Date(currentDate.getFullYear(), 0, 0)) / 86400000);
                 window.location.href = `/method/${encodeURIComponent(language)}/${dayOfYear}`;

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Method of the Day - {{ data.method }}</title>
     <meta name="description" content="Discover the best coding practices, Python programming examples, JavaScript code snippets, and more. Enhance your skills with daily coding problems and advanced programming tips.">
-    <meta name="keywords" content="Best Coding Practices, Python Programming Examples, JavaScript Code Snippets, Learn to Code for Free, Web Development Tips, Software Development Techniques, Coding Tutorials for Beginners, Advanced Programming Tips, Daily Coding Problems, How to Improve Coding Skills">
+    <meta name="keywords" content="Best Coding Practices, Python Programming Examples, JavaScript Code Snippets, Learn to Code for Free, Web Development Tips, Software Development Techniques, Coding Tutorials for Beginners, Advanced Programming Tips, Daily Coding Problems, How to Improve Coding Skills {{ language }}">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,6 +82,11 @@
             font-size: 1.2em;
             width: 250px;
         }
+        .loading {
+            font-size: 1.5em;
+            margin-top: 20px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +103,7 @@
             {% endfor %}
         </select>
     </div>
+    <div class="loading" id="loading">Loading</div>
     <div class="container">
         <div class="section">
             <h2>{{ data.method }}</h2>
@@ -108,7 +114,28 @@
         </div>
     </div>
     <script>
+        const loadingText = document.getElementById('loading');
+        
+        let dotCount = 0;
+        let loadingInterval;
+
+        function startLoadingAnimation() {
+            loadingText.style.display = 'block';
+            
+            loadingInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4; // Cycle through 0 to 3
+                loadingText.textContent = 'Loading' + '.'.repeat(dotCount);
+            }, 500); // Update every 500ms
+        }
+
+        function stopLoadingAnimation() {
+            clearInterval(loadingInterval);
+            loadingText.style.display = 'none';
+            
+        }
+
         function navigateToDate(language, dayOfYear) {
+            startLoadingAnimation();
             const encodedLanguage = encodeURIComponent(language);
             window.location.href = `/method/${encodedLanguage}/${dayOfYear}`;
         }
@@ -129,6 +156,10 @@
             const selectedLanguage = this.value;
             const currentDayOfYear = parseInt(document.getElementById('date').getAttribute('data-day-of-year'));
             navigateToDate(selectedLanguage, currentDayOfYear);
+        });
+
+        window.addEventListener('load', function () {
+            stopLoadingAnimation();
         });
     </script>
 </body>

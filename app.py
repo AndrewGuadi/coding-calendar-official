@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from datetime import datetime, timedelta
 import json
 from urllib.parse import unquote
+from gpt_helpers import OpenAIHelper
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///methods.db'
@@ -20,12 +21,44 @@ class Method(db.Model):
     description = db.Column(db.Text, nullable=False)
     example = db.Column(db.Text, nullable=False)
 
+def fetch_data_from_gpt(language, method):
+    # Replace this with your actual GPT fetching logic
+    with open("openai.txt", 'r', encoding='utf-8') as file:
+        api_key = file.read().strip()  # Read the API key from file
+    
+    intent_message = "Generate a programming method description and example code."
+    openai_helper = OpenAIHelper(api_key, intent_message)
+    
+    prompt = f"Provide a detailed description and example for the method '{method}' in {language}. [For examples you must only use python code as value - as it will directly used in code. Each example must include a complete example/clearly defined logic of usage of code]"
+    data = ""  # Assuming no additional context needed
+    example = '{"method": "", "description": "", "examples": {example_1": "", example_2: "", example_3:""} }'  # Expected JSON format
+    
+    response = openai_helper.gpt_json(prompt, data, example)
+
+    if response:
+        return response
+    
+    return {
+        "method": method,
+        "description": "No description available.",
+        "example": {
+            "example_1": "No example available.",
+            "example_2": "No example available.",
+            "example_3": "No example available."
+        }
+    }
+
+def save_data_to_database(day, language, data):
+    examples_data = json.dumps(data['examples'])
+    method = Method(day=day, language=language, method=data["method"], description=data["description"], example=examples_data)
+    db.session.add(method)
+    db.session.commit()
+
 def get_current_day_of_year():
     now = datetime.utcnow()
     return now.timetuple().tm_yday
 
 def query_database(day, language):
-    language = language.capitalize()
     return Method.query.filter_by(day=day, language=language).first()
 
 @app.route('/')
@@ -41,11 +74,22 @@ def get_method(language, day):
     }
     decoded_language = unquote(language)
     safe_language = language_mapping.get(decoded_language, decoded_language)
-    print(safe_language)
+    
     query_data = query_database(day, safe_language)
     if not query_data:
-        return render_template('404.html'), 404
+        # Fetch data from GPT if not found in the database
+        method_name = "Method of the Day"  # Replace with logic to determine the method name if needed
+        gpt_data = fetch_data_from_gpt(safe_language, method_name)
+        
+        # Save the fetched data to the database
+        save_data_to_database(day, safe_language, gpt_data)
+        
+        # Re-query the database to get the newly saved data
+        query_data = query_database(day, safe_language)
     
+    if not query_data:
+        return render_template('404.html'), 404
+
     base_date = datetime(datetime.now().year, 1, 1) + timedelta(days=day - 1)
     formatted_date = base_date.strftime('%B %d, %Y')
 
