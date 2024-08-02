@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Purpose Page</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    background: black;
+    color: green;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+  }
+
+  .matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: green;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0.8;
+    pointer-events: none; /* Makes sure clicks pass through */
+  }
+
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    border: 2px solid green;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #333;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+<div class="matrix"></div>
+<div class="content" id="purposeText">
+  <!-- Dynamic typing text script will output here -->
+</div>
+
+<script>
+// Matrix Background Effect
+function matrixEffect() {
+  const c = document.createElement("canvas");
+  document.querySelector('.matrix').appendChild(c);
+  
+  let ctx = c.getContext("2d");
+  c.height = window.innerHeight;
+  c.width = window.innerWidth;
+  
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@$%&";
+  characters = characters.split("");
+  
+  let font_size = 10;
+  let columns = c.width / font_size;
+  let drops = [];
+  
+  for (let x = 0; x < columns; x++)
+    drops[x] = 1;
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, c.width, c.height);
+    
+    ctx.fillStyle = "#0F0";
+    ctx.font = font_size + "px arial";
+    
+    for (let i = 0; i < drops.length; i++) {
+      let text = characters[Math.floor(Math.random() * characters.length)];
+      ctx.fillText(text, i * font_size, drops[i] * font_size);
+      
+      if (drops[i] * font_size > c.height && Math.random() > 0.975)
+        drops[i] = 0;
+      
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 33);
+}
+
+// Typing Effect
+function typeEffect() {
+  const text = "Welcome to Coding Calendar... Discover more about the power of collaboration in programming.";
+  let i = 0;
+  let speed = 50;  // Speed in milliseconds
+  let purposeText = document.getElementById("purposeText");
+
+  function typeWriter() {
+    if (i < text.length) {
+      purposeText.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+  typeWriter();
+}
+
+window.onload = function() {
+  matrixEffect();
+  typeEffect();
+};
+
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@ def fetch_data_from_gpt(language, method):
     with open("openai.txt", 'r', encoding='utf-8') as file:
         api_key = file.read().strip()
     
-    print(language, method)
+    
     intent_message = "Generate a programming method description and example code."
     openai_helper = OpenAIHelper(api_key, intent_message)
     
@@ -70,6 +70,12 @@ def query_database(day, language):
     language = language.capitalize()
     return Method.query.filter_by(day=day, language=language).first()
 
+
+@app.route('/about')
+def about():
+    return render_template('testing.html')
+
+    
 @app.route('/')
 def index():
     languages = ["Python", "JavaScript", "Java", "C#", "C++", "PHP", "Ruby", "Swift", "Go"]
