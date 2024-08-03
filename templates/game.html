@@ -14,6 +14,7 @@
             background-color: black;
             color: white;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         canvas {
             background-color: #000;
@@ -25,11 +26,75 @@
             left: 10px;
             font-size: 20px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        .modal button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .control-button {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="score">Score: 0</div>
     <canvas id="gameCanvas" width="300" height="400"></canvas>
+
+    <!-- Modal -->
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <p>Game Over! Final Score: <span id="finalScore"></span></p>
+            <button onclick="restartGame()">Restart</button>
+            <button onclick="goToIndex()">Go to Index</button>
+        </div>
+    </div>
+
+    <!-- Touch Controls -->
+    <div class="controls">
+        <button class="control-button" id="leftBtn">&#9664;</button>
+        <button class="control-button" id="shootBtn">&#9679;</button>
+        <button class="control-button" id="rightBtn">&#9654;</button>
+    </div>
+
     <script>
         const canvas = document.getElementById('gameCanvas');
         const context = canvas.getContext('2d');
@@ -121,8 +186,7 @@
                     bullet.y < player.y + player.height &&
                     bullet.y + bullet.height > player.y
                 ) {
-                    alert(`Game Over! Final Score: ${score}`);
-                    document.location.reload();
+                    endGame();
                 }
             });
 
@@ -174,6 +238,10 @@
             player.dx = -player.speed;
         }
 
+        function stopMove() {
+            player.dx = 0;
+        }
+
         function shoot() {
             player.bullets.push({
                 x: player.x + player.width / 2 - 1,
@@ -197,7 +265,7 @@
         function keyUp(e) {
             if (e.key === 'ArrowRight' || e.key === 'Right' ||
                 e.key === 'ArrowLeft' || e.key === 'Left') {
-                player.dx = 0;
+                stopMove();
             }
         }
 
@@ -225,10 +293,32 @@
             gameSpeed += 0.5;
         }
 
+        function endGame() {
+            clearInterval(scoreInterval);
+            clearInterval(speedInterval);
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOverModal').style.display = 'block';
+        }
+
+        function restartGame() {
+            document.location.reload();
+        }
+
+        function goToIndex() {
+            window.location.href = '/';
+        }
+
         createEnemies();
         update();
         scoreInterval = setInterval(incrementScore, 1000);
         speedInterval = setInterval(increaseSpeed, 30000);
+
+        // Touch controls
+        document.getElementById('leftBtn').addEventListener('touchstart', moveLeft);
+        document.getElementById('leftBtn').addEventListener('touchend', stopMove);
+        document.getElementById('rightBtn').addEventListener('touchstart', moveRight);
+        document.getElementById('rightBtn').addEventListener('touchend', stopMove);
+        document.getElementById('shootBtn').addEventListener('touchstart', shoot);
     </script>
 </body>
 </html>
