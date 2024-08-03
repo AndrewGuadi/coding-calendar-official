@@ -71,6 +71,18 @@ def query_database(day, language):
     return Method.query.filter_by(day=day, language=language).first()
 
 
+
+# THIS IS FOR TESTING THE LOAD GAME WHILE USERS WAIT
+# THIS IS FOR TESTING THE LOAD GAME WHILE USERS WAIT
+@app.route('/game')
+def game():
+    return render_template('game.html')
+# THIS IS FOR TESTING THE LOAD GAME WHILE USERS WAIT
+# THIS IS FOR TESTING THE LOAD GAME WHILE USERS WAIT
+
+
+
+
 @app.route('/about')
 def about():
     return render_template('testing.html')

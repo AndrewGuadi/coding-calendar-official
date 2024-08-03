@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Runner Galaga</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            background-color: #000;
+            border: 1px solid white;
+        }
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="300" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const context = canvas.getContext('2d');
+
+        const player = {
+            x: canvas.width / 2 - 7.5,
+            y: canvas.height - 15,
+            width: 15,
+            height: 15,
+            speed: 2,
+            dx: 0,
+            bullets: []
+        };
+
+        const enemies = [];
+        const enemyBullets = [];
+        let score = 0;
+        let gameSpeed = 1;
+        let scoreInterval, speedInterval;
+
+        function drawPlayer() {
+            context.fillStyle = 'white';
+            context.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function drawEnemies() {
+            context.fillStyle = 'red';
+            enemies.forEach(enemy => {
+                context.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            });
+        }
+
+        function drawBullets() {
+            context.fillStyle = 'yellow';
+            enemyBullets.forEach(bullet => {
+                context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+            player.bullets.forEach(bullet => {
+                context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+        }
+
+        function clear() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function newPos() {
+            player.x += player.dx;
+
+            if (player.x < 0) {
+                player.x = 0;
+            }
+
+            if (player.x + player.width > canvas.width) {
+                player.x = canvas.width - player.width;
+            }
+        }
+
+        function updateEnemies() {
+            enemies.forEach(enemy => {
+                enemy.y += enemy.speed * gameSpeed;
+                if (enemy.y + enemy.height > canvas.height) {
+                    enemy.y = 0;
+                    enemy.x = Math.random() * (canvas.width - enemy.width);
+                }
+
+                if (Math.random() < 0.01) {
+                    enemyBullets.push({
+                        x: enemy.x + enemy.width / 2 - 1,
+                        y: enemy.y + enemy.height,
+                        width: 2,
+                        height: 5,
+                        speed: 1.5 * gameSpeed
+                    });
+                }
+            });
+        }
+
+        function updateBullets() {
+            enemyBullets.forEach((bullet, index) => {
+                bullet.y += bullet.speed;
+                if (bullet.y > canvas.height) {
+                    enemyBullets.splice(index, 1);
+                }
+
+                if (
+                    bullet.x < player.x + player.width &&
+                    bullet.x + bullet.width > player.x &&
+                    bullet.y < player.y + player.height &&
+                    bullet.y + bullet.height > player.y
+                ) {
+                    alert(`Game Over! Final Score: ${score}`);
+                    document.location.reload();
+                }
+            });
+
+            player.bullets.forEach((bullet, index) => {
+                bullet.y -= bullet.speed;
+                if (bullet.y < 0) {
+                    player.bullets.splice(index, 1);
+                }
+
+                enemies.forEach((enemy, enemyIndex) => {
+                    if (
+                        bullet.x < enemy.x + enemy.width &&
+                        bullet.x + bullet.width > enemy.x &&
+                        bullet.y < enemy.y + enemy.height &&
+                        bullet.y + bullet.height > enemy.y
+                    ) {
+                        player.bullets.splice(index, 1);
+                        enemies.splice(enemyIndex, 1);
+                        enemies.push({
+                            x: Math.random() * (canvas.width - 15),
+                            y: Math.random() * (canvas.height / 2),
+                            width: 15,
+                            height: 15,
+                            speed: 0.5
+                        });
+                        score += 10;
+                        document.getElementById('score').textContent = `Score: ${score}`;
+                    }
+                });
+            });
+        }
+
+        function update() {
+            clear();
+            drawPlayer();
+            drawEnemies();
+            drawBullets();
+            newPos();
+            updateEnemies();
+            updateBullets();
+            requestAnimationFrame(update);
+        }
+
+        function moveRight() {
+            player.dx = player.speed;
+        }
+
+        function moveLeft() {
+            player.dx = -player.speed;
+        }
+
+        function shoot() {
+            player.bullets.push({
+                x: player.x + player.width / 2 - 1,
+                y: player.y,
+                width: 2,
+                height: 5,
+                speed: 4
+            });
+        }
+
+        function keyDown(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Right') {
+                moveRight();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                moveLeft();
+            } else if (e.key === ' ' || e.key === 'Spacebar') {
+                shoot();
+            }
+        }
+
+        function keyUp(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Right' ||
+                e.key === 'ArrowLeft' || e.key === 'Left') {
+                player.dx = 0;
+            }
+        }
+
+        document.addEventListener('keydown', keyDown);
+        document.addEventListener('keyup', keyUp);
+
+        function createEnemies() {
+            for (let i = 0; i < 5; i++) {
+                enemies.push({
+                    x: Math.random() * (canvas.width - 15),
+                    y: Math.random() * (canvas.height / 2),
+                    width: 15,
+                    height: 15,
+                    speed: 0.5
+                });
+            }
+        }
+
+        function incrementScore() {
+            score += 1;
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        function increaseSpeed() {
+            gameSpeed += 0.5;
+        }
+
+        createEnemies();
+        update();
+        scoreInterval = setInterval(incrementScore, 1000);
+        speedInterval = setInterval(increaseSpeed, 30000);
+    </script>
+</body>
+</html>
